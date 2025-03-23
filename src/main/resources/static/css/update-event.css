@@ -1,0 +1,173 @@
+:root {
+    --main-gradient: linear-gradient(145deg, #ff6b6b 0%, #ff8e53 100%);
+    --bg-dark: #2c2c2c;
+    --text-light: #f8f9fa;
+    --input-bg: #3a3a3a;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Roboto Condensed', sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 2rem;
+}
+
+.event-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    background: var(--main-gradient); /* Прилага градиента */
+    -webkit-background-clip: text; /* За да работи с текст */
+    -webkit-text-fill-color: transparent; /* Прави текста прозрачен */
+    background-clip: text; /* Стандартен начин за background-clip */
+    color: transparent; /* За резервен браузър */
+}
+
+.event-form {
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Нов клас за подреждане на Location и Description в един ред */
+.form-group.half-width {
+    grid-column: span 1; /* Заема само половин ред */
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ff8e53;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #ff6b6b;
+    border-radius: 8px;
+    background: var(--input-bg);
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+/* Оправя ширината на Description */
+#description {
+    height: 20px;
+    resize: none;
+    width: 92%; /* За да запълни контейнера */
+}
+
+/* Добавяне на стилизация за Price полето */
+.price-wrapper::before {
+    content: "$";
+    position: absolute;
+    left: 15px;
+    top: 65%;
+    transform: translateY(-50%);
+    color: #ff8e53;
+    font-weight: bold;
+    font-size: 1.2em;
+    z-index: 2;
+}
+
+#price {
+    padding-left: 0px !important;
+    width: 350px;
+}
+
+#imageUrl {
+    padding-left: 0px;
+    width: 720px;
+    text-indent: 10px;
+}
+
+.image-container {
+    padding-left: 20px; /* Отстъп отляво за контейнера */
+}
+
+/* Стилове при фокусиране на полетата */
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #ff8e53; /* Цветът на рамката при фокус */
+    box-shadow: 0 0 10px rgba(255,107,107,0.3); /* Лека сенка при фокус */
+}
+
+/* Стилове за бутоните */
+.btn-submit, .btn-update {
+    background: var(--main-gradient);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.btn-submit:hover, .btn-update:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255,107,107,0.5);
+}
+
+/* Responsive стилове */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .event-form {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .form-header h1 {
+        font-size: 2rem;
+    }
+
+    .price-wrapper::before {
+        left: 10px;
+    }
+
+    #price {
+        padding-left: 30px !important;
+    }
+
+    /* За мобилни устройства Description и Location да бъдат на отделни редове */
+    .form-group.half-width {
+        grid-column: 1 / -1;
+    }
+}

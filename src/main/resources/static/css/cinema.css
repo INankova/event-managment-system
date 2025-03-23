@@ -1,0 +1,286 @@
+:root {
+    --primary-color: #0a1f3d;       /* Дълбоко индиго */
+    --secondary-color: #c41e3a;    /* Бордово-червен */
+    --accent-gold: #ffd700;        /* Златист акцент */
+    --accent-teal: #2ec4b6;        /* Модерен тийл */
+    --background-light: #f4f5f7;   /* Светъл фон */
+    --card-bg: #ffffff;            /* Чист бял */
+    --text-dark: #2d3436;          /* Тъмен текст */
+    --text-light: #6c757d;         /* Светъл текст */
+    --shadow: 0 8px 30px rgba(10,31,61,0.1);
+}
+
+/* Основни стилове */
+body {
+    background: var(--background-light);
+    color: var(--text-dark);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.6;
+}
+
+.cinema-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+/* Хедър секция */
+.cinema-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #122b4f 100%);
+    border-radius: 20px;
+    color: white;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.cinema-header h1 {
+    font-size: 3rem;
+    margin: 0 0 1rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    position: relative;
+    z-index: 1;
+}
+
+.cinema-header h1 i {
+    margin-right: 1rem;
+    color: var(--secondary-color);
+}
+
+/* Стилове за бутон "Add Cinema Event" */
+.add-event-btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 1.2rem 2.5rem;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(106,27,154,0.3);
+}
+
+.add-event-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,0.3),
+            transparent
+    );
+    transition: 0.5s;
+}
+
+.add-event-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255,171,0,0.3);
+}
+
+.add-event-btn:hover::before {
+    left: 100%;
+}
+
+.add-event-btn i {
+    font-size: 1.3rem;
+    transition: transform 0.3s ease;
+}
+
+.add-event-btn:hover i {
+    transform: rotate(90deg);
+}
+
+/* Списък със събития */
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem 0;
+}
+
+/* Картичка за събитие */
+.event-card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow);
+    position: relative;
+    border: 1px solid rgba(10,31,61,0.1);
+}
+
+.event-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.event-poster {
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+.event-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-poster img {
+    transform: scale(1.03);
+}
+
+/* Детайли за събитието */
+.event-details {
+    padding: 1.8rem;
+}
+
+.event-details h3 {
+    margin: 0 0 1rem;
+    font-size: 1.5rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.event-info {
+    margin-bottom: 1.5rem;
+}
+
+.location, .datetime {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 0.7rem 0;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.location i, .datetime i {
+    color: var(--primary-color);
+    width: 1.2rem;
+    text-align: center;
+}
+
+.description {
+    color: var(--text-light);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.8rem;
+}
+
+/* Цена и бутон */
+.price-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid var(--background-light);
+    padding-top: 1.5rem;
+}
+
+.price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: -0.03em;
+}
+
+.buy-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.buy-btn i {
+    font-size: 1.1rem;
+}
+
+.buy-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Плаващ бутон */
+.float-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--primary-color);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 8px 25px rgba(196,27,154,0.3);
+    transition: all 0.3s ease;
+}
+
+.float-btn:hover {
+    background: var(--secondary-color);
+    transform: scale(1.1) rotate(15deg);
+    border-radius: 50%;
+}
+
+/* Адаптивен дизайн */
+@media (max-width: 768px) {
+    .cinema-header {
+        padding: 3rem 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .cinema-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .event-poster {
+        height: 350px;
+    }
+
+    .price {
+        font-size: 1.4rem;
+    }
+
+    .buy-btn {
+        padding: 0.8rem 1.5rem;
+    }
+
+    .add-event-btn {
+        padding: 1rem 2rem;
+        font-size: 0.95rem;
+    }
+
+    .add-event-btn i {
+        font-size: 1.1rem;
+    }
+}
