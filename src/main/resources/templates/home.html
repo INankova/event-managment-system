@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicketZone - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/home.css">
+</head>
+<body>
+<div class="header">
+    <a th:href="@{/users/profile}" class="profile-avatar">
+        <img th:src="${#strings.isEmpty(user.profilePictureUrl) ? 'https://api.dicebear.com/7.x/initials/svg?seed=${user.username}' : user.profilePictureUrl}"
+             alt="User Avatar">
+    </a>
+
+    <div class="ticket-header">
+        <h1>TicketZone</h1>
+        <p th:text="'Welcome, ' + ${user.username} + '!'"></p>
+    </div>
+</div>
+
+<div class="auth-buttons">
+    <a th:href="@{/logout}" class="btn-login">Exit</a>
+</div>
+
+<main>
+    <section class="category sport animate-slide">
+        <h2>Sports</h2>
+        <a th:href="@{/categories/sports}" class="btn-more">Show More</a>
+    </section>
+
+    <section class="category concert animate-slide">
+        <h2>Concerts</h2>
+        <a th:href="@{/categories/concerts}" class="btn-more">Show More</a>
+    </section>
+
+    <section class="category cinema animate-slide">
+        <h2>Cinema</h2>
+        <a th:href="@{/categories/cinema}" class="btn-more">Show More</a>
+    </section>
+
+    <section class="category theater animate-slide">
+        <h2>Theater</h2>
+        <a th:href="@{/categories/theater}" class="btn-more">Show More</a>
+    </section>
+</main>
+
+<div class="cart-container">
+    <form th:action="@{/cart/shopping-cart}" method="get">
+        <button type="submit" class="cart-button">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cartCount">0</span>
+        </button>
+    </form>
+</div>
+</body>
+</html>

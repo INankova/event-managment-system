@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicketZone - User Profile</title>
+    <link rel="stylesheet" type="text/css" href="/css/profile-menu.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="profile-container">
+    <header class="profile-header">
+        <a th:href="@{/home}" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+
+        <div class="profile-section">
+            <div class="profile-info">
+                <h1 th:text="${user.fullName}">John Doe</h1>
+                <div class="user-details">
+                    <p th:text="${user.email}">john.doe@example.com</p>
+                    <p th:text="${user.phoneNumber}">+1 234 567 890</p>
+                </div>
+                <div class="btn-edit-container">
+                    <a th:href="@{/users/edit-profile}" class="btn-edit">Edit Profile</a>
+                </div>
+            </div>
+            <div class="profile-avatar">
+                <img th:src="'https://api.dicebear.com/7.x/initials/svg?seed=' + ${user.fullName}"
+                     alt="Profile Picture">
+            </div>
+        </div>
+    </header>
+
+    <!-- My Events Section -->
+    <main class="events-container">
+        <h2 class="section-title">My Events</h2>
+        <div class="events-box">
+            <!-- Event Loop -->
+            <div th:each="event : ${userEvents}" class="event-item">
+                <div class="event-image">
+                    <img th:src="${event.eventImageUrl}"
+                         th:alt="${event.title}"
+                         src="https://via.placeholder.com/150">
+                </div>
+                <div class="event-content">
+                    <div class="event-header">
+                        <h3 th:text="${event.title}">Event Title</h3>
+                        <div class="event-actions">
+                            <form th:action="@{/events/update/{id}(id=${event.id})}" method="get">
+                                <button type="submit" class="btn-update">Update</button>
+                            </form>
+                            <form th:action="@{/events/delete/{id}(id=${event.id})}" method="post">
+                                <button type="submit" class="btn-delete">Delete</button>
+                            </form>
+                        </div>
+                        <span class="event-category"
+                              th:text="${event.eventType}">Category</span>
+                    </div>
+                    <div class="event-details">
+                        <p><i class="fas fa-calendar-alt"></i>
+                            <span th:text="${#temporals.format(event.dateTime, 'dd MMM yyyy, HH:mm')}">
+                                15 Jul 2024, 19:00
+                            </span>
+                        </p>
+                        <p><i class="fas fa-map-marker-alt"></i>
+                            <span th:text="${event.location}">Location</span>
+                        </p>
+                        <p><i class="fas fa-tag"></i>
+                            <span th:text="'$' + ${event.price}">$0.00</span>
+                        </p>
+                        <p><i class="fas fa-info-circle"></i>
+                            <span th:text="${event.description}">Event description</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Tickets Section -->
+    <main class="tickets-container">
+        <h2 class="section-title">My Tickets</h2>
+        <div class="tickets-box">
+            <!-- Ticket Loop -->
+            <div th:each="ticket : ${userTickets}" class="ticket-item">
+                <div class="ticket-header">
+                    <h3 th:text="${ticket.event.title}">Event Title</h3>
+                    <div class="ticket-header-right">
+                        <form th:action="@{/tickets/cancel/{id}(id=${ticket.id})}" method="post">
+                            <button type="submit" class="btn-cancel">Cancel</button>
+                        </form>
+                        <span class="ticket-status"
+                              th:text="${ticket.status}"
+                              th:classappend="${ticket.status}">
+                            Confirmed
+                        </span>
+                        <span class="ticket-price"
+                              th:text="'$' + ${ticket.price}">
+                            $0.00
+                        </span>
+                    </div>
+                </div>
+                <div class="ticket-details">
+                    <p><i class="fas fa-calendar-alt"></i>
+                        <span th:text="${#temporals.format(ticket.event.dateTime, 'dd MMM yyyy, HH:mm')}">
+                            15 Jul 2024, 19:00
+                        </span>
+                    </p>
+                    <p><i class="fas fa-map-marker-alt"></i>
+                        <span th:text="${ticket.event.location}">Location</span>
+                    </p>
+                    <p><i class="fas fa-ticket-alt"></i>
+                        Ticket ID: <span th:text="'#' + ${ticket.id}">#TX000000</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>
