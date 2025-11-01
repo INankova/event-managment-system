@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicketZone - Venues</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/venues.css">
+</head>
+<body>
+<div class="header">
+    <div class="ticket-header">
+        <h1>TicketZone</h1>
+    </div>
+</div>
+
+<main>
+    <section class="venues-list animate-slide">
+        <h2><i class="fas fa-building"></i> Venues</h2>
+
+        <!-- Бутон за добавяне на ново веню -->
+        <div class="add-venue-btn-container">
+            <a th:href="@{/venues/new}" class="btn-add-venue">
+                <i class="fas fa-plus"></i> Add Venue
+            </a>
+        </div>
+
+        <!-- Динамичен списък с venues -->
+        <div th:each="venue : ${venues}" class="venue-card" th:if="">
+            <div class="venue-info">
+                <h3 th:text="${venue.name}">Venue Name</h3>
+                <p><i class="fas fa-map-marker-alt"></i> <span th:text="${venue.address}">Address</span></p>
+                <p><i class="fas fa-city"></i> <span th:text="${venue.city}">City</span></p>
+                <p><i class="fas fa-users"></i> Capacity: <span th:text="${venue.capacity}">Capacity</span></p>
+                <p><i class="fas fa-phone"></i> <span th:text="${venue.contactInfo}">Phone</span></p>
+            </div>
+        </div>
+
+    </section>
+</main>
+</body>
+</html>

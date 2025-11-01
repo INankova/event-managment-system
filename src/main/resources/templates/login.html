@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&family=Courier+New&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>TicketZone - Login</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+<body>
+<div class="ticket">
+    <div class="perforation"></div>
+    <div class="ticket-content">
+        <div class="header">
+            <h1>TicketZone</h1>
+            <p class="subtitle">Event Access Portal</p>
+        </div>
+
+        <form class="auth-form" th:action="@{/login}" th:method="POST" th:object="${loginRequest}">
+
+            <div class="form-group right-aligned">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" th:field="*{username}" class="ticket-input" autofocus>
+                <div class="input-decoration"></div>
+            </div>
+
+            <div class="form-group right-aligned">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" th:field="*{password}" class="ticket-input">
+                <<small th:if="${errorMessage}" th:text="${errorMessage}" style="color: #ff6b6b; font-size: 15px;"></small>>
+                <div class="input-decoration"></div>
+            </div>
+
+            <button type="submit" class="roll-button login-btn">
+                <span>Login</span>
+            </button>
+
+            <div class="register-prompt">
+                <span>Don't have an account? </span>
+                <a th:href="@{/register}" class="register-link">Register here</a>
+            </div>
+        </form>
+
+        <div class="barcode"></div>
+    </div>
+    <div class="perforation"></div>
+</div>
+</body>
+</html>

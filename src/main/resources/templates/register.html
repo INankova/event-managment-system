@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+  <title>TicketZone - Register</title>
+  <link rel="stylesheet" type="text/css" href="/css/register.css">
+</head>
+<body>
+<div class="ticket">
+  <div class="ticket-content">
+    <div class="header">
+      <h1>TicketZone</h1>
+      <p class="subtitle">Join Our Community</p>
+    </div>
+
+    <form class="auth-form" th:action="@{/register}" method="post" th:object="${registerRequest}">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" th:field="*{username}" class="ticket-input" autofocus>
+        <div class="input-decoration"></div>
+        <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="danger" style="color: #ff6b6b; font-size: 15px;"></small>
+      </div>
+
+      <div class="form-group">
+        <div class="label-holder text-white textCol d-flex justify-content-center">
+          <label for="email" class="h4 mb-2">Email</label>
+        </div>
+        <input type="email" class="ticket-input" id="email" name="email" th:field="*{email}"/>
+        <div class="input-decoration"></div>
+        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="danger">Error message</small>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" th:field="*{password}" class="ticket-input">
+        <div class="input-decoration"></div>
+        <small th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="danger" style="color: #ff6b6b; font-size: 15px;"></small>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" th:field="*{confirmPassword}" class="ticket-input">
+        <div class="input-decoration"></div>
+        <small th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="danger" style="color: #ff6b6b; font-size: 15px;"></small>
+      </div>
+
+      <button type="submit" class="login-btn">
+        <span>Join Now</span>
+      </button>
+
+      <div class="register-prompt">
+        <span>Already registered? </span>
+        <a th:href="@{/login}" class="register-link">Sign In</a>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>
