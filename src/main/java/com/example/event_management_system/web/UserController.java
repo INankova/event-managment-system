@@ -42,8 +42,8 @@ public class UserController {
 
         User user = userService.getById(authenticationMetaData.getId());
 
-        List<Event> userEvents = eventRepository.findByUserId(authenticationMetaData.getId());
-        List<Ticket> userTickets = ticketRepository.findByUserId(authenticationMetaData.getId());
+        List<Event> userEvents = eventRepository.findByOwnerId(authenticationMetaData.getId());
+        List<Ticket> userTickets = ticketRepository.findByOwnerId(authenticationMetaData.getId());
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("profile-menu");

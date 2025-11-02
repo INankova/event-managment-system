@@ -35,7 +35,7 @@ public class TicketController {
 
     @GetMapping("/tickets")
     public ModelAndView showTickets(UUID userId) {
-        List<Ticket> tickets = ticketRepository.findByUserId(userId);
+        List<Ticket> tickets = ticketRepository.findByOwnerId(userId);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("profile-menu");
         modelAndView.addObject("tickets", tickets);

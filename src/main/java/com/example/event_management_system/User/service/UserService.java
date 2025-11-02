@@ -4,7 +4,7 @@ import com.example.event_management_system.Security.AuthenticationMetaData;
 import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.User.repository.UserRepository;
 import com.example.event_management_system.email.service.EmailService;
-import com.example.event_management_system.web.dto.LoginRequest;
+import com.example.event_management_system.exception.DomainException;
 import com.example.event_management_system.web.dto.RegisterNotificationEvent;
 import com.example.event_management_system.web.dto.RegisterRequest;
 import com.example.event_management_system.web.dto.UserEditRequest;
@@ -28,14 +28,12 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final UserService userService;
     private final ApplicationEventPublisher eventPublisher;
     private final EmailService emailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserService userService, ApplicationEventPublisher eventPublisher, EmailService emailService) {
+    public UserService(UserRepository userRepository, ApplicationEventPublisher eventPublisher, EmailService emailService) {
         this.userRepository = userRepository;
-        this.userService = userService;
         this.eventPublisher = eventPublisher;
         this.emailService = emailService;
     }
@@ -45,12 +43,12 @@ public class UserService implements UserDetailsService {
 
         Optional<User> optionalUser = userRepository.findByUsernameOrEmail(registerRequest.getUsername(), registerRequest.getEmail());
         if (optionalUser.isPresent()) {
-            throw new RuntimeException("User already exists");
+            throw new UsernameNotFoundException("User already exists");
         }
 
         User user = userRepository.save(initializeUser(registerRequest));
 
-        log.info("User created: " + user.getUsername());
+        log.info("User created: {}", user.getUsername());
 
         RegisterNotificationEvent event = RegisterNotificationEvent.builder()
                 .userId(user.getId())
@@ -83,7 +81,7 @@ public class UserService implements UserDetailsService {
 
     public User getById(UUID userId) {
 
-        return userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User with id [%s] not found]".formatted(userId)));
+        return userRepository.findById(userId).orElseThrow(() -> new DomainException("User with id [%s] not found]".formatted(userId)));
     }
 
     @CacheEvict(value = "userDetails", key = "#userId")

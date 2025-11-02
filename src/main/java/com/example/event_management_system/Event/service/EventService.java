@@ -4,6 +4,7 @@ package com.example.event_management_system.Event.service;
 import com.example.event_management_system.Event.model.Event;
 import com.example.event_management_system.Event.repository.EventRepository;
 import com.example.event_management_system.User.model.User;
+import com.example.event_management_system.exception.DomainException;
 import com.example.event_management_system.web.dto.CreateEventRequest;
 import com.example.event_management_system.web.dto.EventEditRequest;
 import jakarta.validation.Valid;
@@ -21,18 +22,16 @@ import java.util.UUID;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final EventService eventService;
 
     @Autowired
-    public EventService(EventRepository eventRepository, EventService eventService) {
+    public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
-        this.eventService = eventService;
     }
 
     @Cacheable(value = "event", key = "#eventId")
     public Event getEventById(UUID id) {
         return eventRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Събитието не е намерено!"));
+                .orElseThrow(() -> new DomainException("This event was not found: " + id));
     }
 
     @CacheEvict(value = "event", key = "#eventId")
@@ -73,6 +72,6 @@ public class EventService {
 
     @Cacheable("events")
     public List<Event> findEventsBefore(LocalDateTime time) {
-        return eventRepository.findByEndDateBefore(time);
+        return eventRepository.findByDateTimeBefore(time);
     }
 }

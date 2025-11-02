@@ -3,6 +3,7 @@ package com.example.event_management_system.Ticket.service;
 import com.example.event_management_system.Ticket.model.Ticket;
 import com.example.event_management_system.Ticket.model.TicketStatus;
 import com.example.event_management_system.Ticket.repository.TicketRepository;
+import com.example.event_management_system.exception.DomainException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -24,10 +25,10 @@ public class TicketService {
     @CacheEvict(value = "ticketCache", key = "#ticketId")
     public void cancelTicket(@PathVariable UUID ticketId) {
         Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new IllegalArgumentException("Ticket not found"));
+                .orElseThrow(() -> new DomainException("Ticket not found"));
 
         if (ticket.getStatus() == TicketStatus.CANCELLED) {
-            throw new IllegalArgumentException("Ticket is already cancelled");
+            throw new DomainException("Ticket is already cancelled");
         }
 
 

@@ -2,9 +2,11 @@ package com.example.event_management_system.web.dto;
 
 import com.example.event_management_system.Event.model.EventType;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
@@ -13,8 +15,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@Getter
-@Setter
+@AllArgsConstructor
 public class CreateEventRequest {
 
     @NotBlank(message = "Title must not be empty!")

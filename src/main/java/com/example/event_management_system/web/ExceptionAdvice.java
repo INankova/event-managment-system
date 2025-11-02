@@ -1,8 +1,8 @@
 package com.example.event_management_system.web;
 
+import com.example.event_management_system.exception.NotificationServiceFeignCallException;
 import com.example.event_management_system.exception.UsernameAlreadyExistException;
-import com.example.event_management_system.exception.VenueNameAlreadyExistException;
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -20,21 +19,27 @@ import java.nio.file.AccessDeniedException;
 public class ExceptionAdvice {
 
     @ExceptionHandler(UsernameAlreadyExistException.class)
-    public String handleUsernameAlreadyExist(RedirectAttributes redirectAttributes, UsernameAlreadyExistException exception) {
+    public String handleUsernameAlreadyExist(HttpServletRequest request, RedirectAttributes redirectAttributes, UsernameAlreadyExistException exception) {
 
+        // Option 1
+        //Autowire HttpServletRequest request
+        //String username = request.getParameter("username");
+        //String message = "%s is already in use!".formatted(username);
+
+        // Option 2
         String message = exception.getMessage();
 
         redirectAttributes.addFlashAttribute("usernameAlreadyExistMessage", message);
         return "redirect:/register";
     }
 
-    @ExceptionHandler(VenueNameAlreadyExistException.class)
-    public String handleVenueNameAlreadyExist(RedirectAttributes redirectAttributes, VenueNameAlreadyExistException exception) {
+    @ExceptionHandler(NotificationServiceFeignCallException.class)
+    public String handleNotificationFeignCallException(RedirectAttributes redirectAttributes, NotificationServiceFeignCallException exception) {
 
         String message = exception.getMessage();
 
-        redirectAttributes.addFlashAttribute("venueNameAlreadyExists", message);
-        return "redirect:/venues";
+        redirectAttributes.addFlashAttribute("clearHistoryErrorMessage", message);
+        return "redirect:/notifications";
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -42,11 +47,9 @@ public class ExceptionAdvice {
             AccessDeniedException.class,
             NoResourceFoundException.class,
             MethodArgumentTypeMismatchException.class,
-            MissingRequestValueException.class,
-            NoHandlerFoundException.class,
-            EntityNotFoundException.class,
+            MissingRequestValueException.class
     })
-    public ModelAndView handleNotFoundExceptions() {
+    public ModelAndView handleNotFoundExceptions(Exception exception) {
 
         return new ModelAndView("not-found");
     }
