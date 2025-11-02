@@ -1,5 +1,6 @@
 package com.example.event_management_system.web.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,7 @@ public class UserEditRequest {
 
     @URL(message = "Requires correct web link format")
     private String profilePicture;
+
+    @Email(message = "Requires correct email format")
+    private String email;
 }

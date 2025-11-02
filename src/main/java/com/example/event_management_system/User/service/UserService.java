@@ -3,6 +3,7 @@ package com.example.event_management_system.User.service;
 import com.example.event_management_system.Security.AuthenticationMetaData;
 import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.User.repository.UserRepository;
+import com.example.event_management_system.email.service.EmailService;
 import com.example.event_management_system.web.dto.LoginRequest;
 import com.example.event_management_system.web.dto.RegisterNotificationEvent;
 import com.example.event_management_system.web.dto.RegisterRequest;
@@ -29,12 +30,14 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserService userService;
     private final ApplicationEventPublisher eventPublisher;
+    private final EmailService emailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserService userService, ApplicationEventPublisher eventPublisher) {
+    public UserService(UserRepository userRepository, UserService userService, ApplicationEventPublisher eventPublisher, EmailService emailService) {
         this.userRepository = userRepository;
         this.userService = userService;
         this.eventPublisher = eventPublisher;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -88,9 +91,18 @@ public class UserService implements UserDetailsService {
 
         User user = getById(userId);
 
+        if (userEditRequest.getEmail().isBlank()) {
+            emailService.saveNotification(userId, false, null);
+        }
+
         user.setFirstName(userEditRequest.getFirstName());
         user.setLastName(userEditRequest.getLastName());
+        user.setEmail(userEditRequest.getEmail());
         user.setProfilePictureUrl(userEditRequest.getProfilePicture());
+
+        if (!userEditRequest.getEmail().isBlank()) {
+            emailService.saveNotification(userId, true, userEditRequest.getEmail());
+        }
 
         userRepository.save(user);
     }
