@@ -15,4 +15,5 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
     List<Event> findByEventTypeOrderByTitle(EventType eventType);
     List<Event> findByUserId(UUID userId);
     List<Event> findByEndDateBefore(LocalDateTime time);
+    List<Event> findAllByDateTimeBetween(LocalDateTime from, LocalDateTime to);
 }
