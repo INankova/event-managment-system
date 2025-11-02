@@ -2,6 +2,7 @@ package com.example.event_management_system.Venue.service;
 
 import com.example.event_management_system.Venue.model.Venue;
 import com.example.event_management_system.Venue.repository.VenueRepository;
+import com.example.event_management_system.exception.VenueNameAlreadyExistsException;
 import com.example.event_management_system.web.dto.CreateVenueRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -21,6 +22,10 @@ public class VenueService {
 
     @CacheEvict(value = "venues", allEntries = true)
     public void createNewVenue(CreateVenueRequest createVenueRequest) {
+
+        if (venueRepository.existsByName(createVenueRequest.getName())) {
+            throw new VenueNameAlreadyExistsException("Venue with name '" + createVenueRequest.getName() + "' already exists");
+        }
 
         Venue venue = Venue.builder()
                 .name(createVenueRequest.getName())
