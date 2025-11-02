@@ -5,6 +5,7 @@ import com.example.event_management_system.email.Client.dto.Notification;
 import com.example.event_management_system.email.Client.dto.NotificationPreference;
 import com.example.event_management_system.email.Client.dto.NotificationRequest;
 import com.example.event_management_system.email.Client.dto.UpsertNotificationPreference;
+import com.example.event_management_system.exception.NotificationServiceFeignCallException;
 import com.example.event_management_system.web.dto.RegisterNotificationEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,6 @@ public class EmailService {
         this.notificationClient = notificationClient;
     }
 
-    @EventListener
-    public void SendRegisterNotif(RegisterNotificationEvent event) {
-        System.out.println("Welcome, you are registered!");
-    }
-
     public void saveNotification(UUID userId, boolean enabled, String email) {
 
         UpsertNotificationPreference notification = UpsertNotificationPreference.builder()
@@ -41,10 +37,13 @@ public class EmailService {
                 .enabled(enabled)
                 .build();
 
-        ResponseEntity<Void> httpResponse = notificationClient.upsertPreference(notification);
-
-        if (!httpResponse.getStatusCode().is2xxSuccessful()) {
-            log.error("Can't save preference for user " + userId);
+        try {
+            ResponseEntity<Void> httpResponse = notificationClient.upsertPreference(notification);
+            if (!httpResponse.getStatusCode().is2xxSuccessful()) {
+                log.error("[Feign call to notification-svc failed] Can't save user preference for user with id = [%s]".formatted(userId));
+            }
+        } catch (Exception e) {
+            log.error("Unable to call notification-svc.");
         }
     }
 
@@ -75,10 +74,33 @@ public class EmailService {
                 .body(emailBody)
                 .build();
 
-        ResponseEntity<Notification> httpResponse = notificationClient.sendNotification(notificationRequest);
+        ResponseEntity<Void> httpResponse;
+        try {
+            httpResponse = notificationClient.sendNotification(notificationRequest);
+            if (!httpResponse.getStatusCode().is2xxSuccessful()) {
+                log.error("[Feign call to notification-svc failed] Can't send email to user with id = [%s]".formatted(userId));
+            }
+        } catch (Exception e) {
+            log.warn("Can't send email to user with id = [%s] due to 500 Internal Server Error.".formatted(userId));
+        }
+    }
 
-        if (!httpResponse.getStatusCode().is2xxSuccessful()) {
-            log.error("Can't send email to user " + userId);
+    public void changeNotificationPreference(UUID userId, boolean enabled) {
+
+        try {
+            notificationClient.changeNotificationPreference(userId, enabled);
+        } catch (Exception e) {
+            log.warn("Can't update notification preferences for user with id = [%s].".formatted(userId));
+        }
+    }
+
+    public void clearHistory(UUID userId) {
+
+        try {
+            notificationClient.clearHistory(userId);
+        } catch (Exception e) {
+            log.error("Unable to call notification-svc for clear notification history.".formatted(userId));
+            throw new NotificationServiceFeignCallException("Can't load");
         }
     }
 }

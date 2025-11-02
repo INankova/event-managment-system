@@ -9,11 +9,15 @@ import com.example.event_management_system.email.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/notifications")
@@ -35,7 +39,7 @@ public class NotificationController {
 
         NotificationPreference notificationPreference = emailService.getNotificationPreference(user.getId());
         List<Notification> notificationHistory = emailService.getNotificationHistory(user.getId());
-        notificationHistory = notificationHistory.stream().limit(3).toList();
+        notificationHistory = notificationHistory.stream().limit(3).filter(notification -> notification.getStatus().equals("SUCCEEDED")).toList();
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", user);
@@ -43,5 +47,23 @@ public class NotificationController {
         modelAndView.addObject("notificationHistory", notificationHistory);
 
         return modelAndView;
+    }
+
+    @PutMapping("/user-preference")
+    public String updateUserPreference(@RequestParam(name = "enabled") boolean enabled, @AuthenticationPrincipal AuthenticationMetaData authenticationMetadata) {
+
+        emailService.changeNotificationPreference(authenticationMetadata.getId(), enabled);
+
+        return "redirect:/notifications";
+    }
+
+    @DeleteMapping
+    public String deleteNotificationHistory(@AuthenticationPrincipal AuthenticationMetaData authenticationMetadata) {
+
+        UUID userId = authenticationMetadata.getId();
+
+        emailService.clearHistory(userId);
+
+        return "redirect:/notifications";
     }
 }
