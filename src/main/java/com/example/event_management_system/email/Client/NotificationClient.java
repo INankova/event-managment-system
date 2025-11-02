@@ -36,4 +36,7 @@ public interface NotificationClient {
 
     @DeleteMapping
     ResponseEntity<Void> clearHistory(@RequestParam(name = "userId") UUID userId);
+
+    @PostMapping("/digest/weekly/run-now")
+    ResponseEntity<Void> runWeeklyDigestNow();
 }
