@@ -94,7 +94,7 @@ label {
 
 .input-decoration {
     position: absolute;
-    bottom: -2px;
+    top: 97px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;

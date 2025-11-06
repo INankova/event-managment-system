@@ -30,7 +30,7 @@
         </div>
         <input type="email" class="ticket-input" id="email" name="email" th:field="*{email}"/>
         <div class="input-decoration"></div>
-        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="danger">Error message</small>
+        <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="danger" style="color: #ff6b6b; font-size: 15px;"></small>
       </div>
 
       <div class="form-group">

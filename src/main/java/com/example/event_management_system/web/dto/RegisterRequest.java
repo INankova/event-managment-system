@@ -1,6 +1,7 @@
 package com.example.event_management_system.web.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class RegisterRequest {
     @Size(min = 3, max = 20, message = "Username length must be between 3 and 20 characters!")
     private String username;
 
-    @NotNull(message = "Email must not be empty!")
+    @NotBlank(message = "Email must not be empty!")
     @Email(message = "Email must not be empty!")
     private String email;
 
