@@ -1,6 +1,5 @@
 package com.example.event_management_system.Event.service;
 
-
 import com.example.event_management_system.Event.model.Event;
 import com.example.event_management_system.Event.repository.EventRepository;
 import com.example.event_management_system.User.model.User;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,21 +26,20 @@ public class EventService {
         this.eventRepository = eventRepository;
     }
 
-    @Cacheable(value = "event", key = "#eventId")
+    @Cacheable(value = "event", key = "#id")
     public Event getEventById(UUID id) {
         return eventRepository.findById(id)
                 .orElseThrow(() -> new DomainException("This event was not found: " + id));
     }
 
-    @CacheEvict(value = "event", key = "#eventId")
-    public void deleteEvent(@PathVariable UUID id) {
+    @CacheEvict(value = "event", key = "#id")
+    public void deleteEvent(UUID id) {
         eventRepository.deleteById(id);
     }
 
-    @CacheEvict(value = "events", key = "#eventId")
-    public void editEventDetails(UUID EventId, @Valid EventEditRequest eventEditRequest) {
-
-        Event event = getEventById(EventId);
+    @CacheEvict(value = "event", key = "#eventId")
+    public void editEventDetails(UUID eventId, @Valid EventEditRequest eventEditRequest) {
+        Event event = getEventById(eventId);
 
         event.setTitle(eventEditRequest.getTitle());
         event.setDateTime(eventEditRequest.getDateTime());
@@ -65,6 +62,7 @@ public class EventService {
                 .dateTime(createEventRequest.getDateTime())
                 .eventImageUrl(createEventRequest.getImageUrl())
                 .eventType(createEventRequest.getEventType())
+                .owner(user)
                 .build();
 
         eventRepository.save(event);

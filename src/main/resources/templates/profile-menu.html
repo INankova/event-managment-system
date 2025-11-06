@@ -18,17 +18,24 @@
 
         <div class="profile-section">
             <div class="profile-info">
-                <h1 th:text="${user.fullName}">John Doe</h1>
+                <h1 th:text="
+  ${(user.firstName != null and user.firstName != '') or (user.lastName != null and user.lastName != '')} ?
+  ${user.firstName + ' ' + user.lastName} : ${user.username}">
+                    John Doe
+                </h1>
                 <div class="user-details">
                     <p th:text="${user.email}">john.doe@example.com</p>
-                    <p th:text="${user.phoneNumber}">+1 234 567 890</p>
+                    <p th:text="${user.phoneNumber != null and user.phoneNumber != '' ? user.phoneNumber : 'No phone number provided'}">
+                        +1 234 567 890
+                    </p>
+
                 </div>
                 <div class="btn-edit-container">
                     <a th:href="@{/users/edit-profile}" class="btn-edit">Edit Profile</a>
                 </div>
             </div>
             <div class="profile-avatar">
-                <img th:src="'https://api.dicebear.com/7.x/initials/svg?seed=' + ${user.fullName}"
+                <img th:src="'https://api.dicebear.com/7.x/initials/svg?seed=' + ${user.firstName + ' ' + user.lastName}"
                      alt="Profile Picture">
             </div>
         </div>
@@ -53,6 +60,7 @@
                                 <button type="submit" class="btn-update">Update</button>
                             </form>
                             <form th:action="@{/events/delete/{id}(id=${event.id})}" method="post">
+                                <input type="hidden" name="_method" value="delete"/>
                                 <button type="submit" class="btn-delete">Delete</button>
                             </form>
                         </div>

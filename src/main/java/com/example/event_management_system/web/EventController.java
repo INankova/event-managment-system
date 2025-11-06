@@ -2,25 +2,20 @@ package com.example.event_management_system.web;
 
 import com.example.event_management_system.Event.model.Event;
 import com.example.event_management_system.Event.model.EventType;
-import com.example.event_management_system.Event.repository.EventRepository;
 import com.example.event_management_system.Event.service.EventService;
 import com.example.event_management_system.Security.AuthenticationMetaData;
 import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.User.service.UserService;
 import com.example.event_management_system.web.dto.CreateEventRequest;
 import com.example.event_management_system.web.dto.EventEditRequest;
-import com.example.event_management_system.Event.client.dto.EventSummaryResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -29,13 +24,11 @@ public class EventController {
 
     private final EventService eventService;
     private final UserService userService;
-    private final EventRepository eventRepository;
 
     @Autowired
-    public EventController(EventService eventService, UserService userService, EventRepository eventRepository) {
+    public EventController(EventService eventService, UserService userService) {
         this.eventService = eventService;
         this.userService = userService;
-        this.eventRepository = eventRepository;
     }
 
     @DeleteMapping("/delete/{id}")
@@ -43,7 +36,7 @@ public class EventController {
 
         eventService.deleteEvent(id);
 
-        return "redirect:/profile";
+        return "redirect:/users/profile";
     }
 
     @GetMapping("/new")
@@ -61,7 +54,7 @@ public class EventController {
     }
 
     @PostMapping("/new")
-    public String createEvent(@Valid CreateEventRequest createEventRequest, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData, BindingResult bindingResult) {
+    public String createEvent(@Valid CreateEventRequest createEventRequest,BindingResult bindingResult, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
         if (bindingResult.hasErrors()) {
             return "add-new-event";
@@ -74,14 +67,24 @@ public class EventController {
         return "redirect:/home";
     }
 
-    @PutMapping("/{id}/profile")
-    public ModelAndView updateEvent(@PathVariable UUID id, @Valid EventEditRequest eventEditRequest, BindingResult bindingResult) {
+    @GetMapping("/update/{id}")
+    public ModelAndView showUpdateEventPage(@PathVariable UUID id) {
+        Event event = eventService.getEventById(id);
+
+        ModelAndView modelAndView = new ModelAndView("update-event");
+        modelAndView.addObject("eventEditRequest", new EventEditRequest(event));
+        modelAndView.addObject("eventType", EventType.values());
+
+        return modelAndView;
+    }
+
+    @PutMapping("/{id}/update")
+    public ModelAndView updateEvent(@PathVariable UUID id,
+                                    @Valid @ModelAttribute("eventEditRequest") EventEditRequest eventEditRequest,
+                                    BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            Event event = eventService.getEventById(id);
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("update-event");
-            modelAndView.addObject("event", event);
+            ModelAndView modelAndView = new ModelAndView("update-event");
             modelAndView.addObject("eventEditRequest", eventEditRequest);
             modelAndView.addObject("eventType", EventType.values());
             return modelAndView;
@@ -89,25 +92,7 @@ public class EventController {
 
         eventService.editEventDetails(id, eventEditRequest);
 
-        return new ModelAndView("redirect:/profile");
+        return new ModelAndView("redirect:/users/profile");
     }
 
-    @GetMapping("/api/v1/events")
-    @ResponseBody
-    public List<EventSummaryResponse> getEventsBetween(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to
-    ) {
-        return eventRepository.findAllByDateTimeBetween(from, to)
-                .stream()
-                .map(event -> EventSummaryResponse.builder()
-                        .id(event.getId())
-                        .title(event.getTitle())
-                        .dateTime(event.getDateTime())
-                        .location(event.getLocation())
-                        .price(event.getPrice())
-                        .eventType(event.getEventType())
-                        .build())
-                .toList();
-    }
 }

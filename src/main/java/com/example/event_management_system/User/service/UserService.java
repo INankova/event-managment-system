@@ -1,6 +1,7 @@
 package com.example.event_management_system.User.service;
 
 import com.example.event_management_system.Security.AuthenticationMetaData;
+import com.example.event_management_system.User.model.Role;
 import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.User.repository.UserRepository;
 import com.example.event_management_system.email.service.EmailService;
@@ -17,6 +18,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,12 +32,14 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, ApplicationEventPublisher eventPublisher, EmailService emailService) {
+    public UserService(UserRepository userRepository, ApplicationEventPublisher eventPublisher, EmailService emailService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.eventPublisher = eventPublisher;
         this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -43,7 +47,7 @@ public class UserService implements UserDetailsService {
 
         Optional<User> optionalUser = userRepository.findByUsernameOrEmail(registerRequest.getUsername(), registerRequest.getEmail());
         if (optionalUser.isPresent()) {
-            throw new UsernameNotFoundException("User already exists");
+            throw new UsernameNotFoundException("Username already exists");
         }
 
         User user = userRepository.save(initializeUser(registerRequest));
@@ -67,8 +71,9 @@ public class UserService implements UserDetailsService {
         return User.builder()
                 .username(registerRequest.getUsername())
                 .email(registerRequest.getEmail())
-                .password(registerRequest.getPassword())
-                .confirmPassword(registerRequest.getConfirmPassword())
+                .password(passwordEncoder.encode(registerRequest.getPassword()))
+                .confirmPassword(passwordEncoder.encode(registerRequest.getPassword()))
+                .role(Role.USER)
                 .build();
 
     }
