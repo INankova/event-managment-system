@@ -1,13 +1,14 @@
 package com.example.event_management_system.web.dto;
 
 import com.example.event_management_system.Event.model.EventType;
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
 import java.math.BigDecimal;
@@ -16,15 +17,18 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateEventRequest {
 
     @NotBlank(message = "Title must not be empty!")
     private String title;
 
-    @NotBlank(message = "Date and time must not be empty!")
+    @NotNull(message = "Date and time must not be empty!")
+    @FutureOrPresent(message = "Date must be in the future or now!")
     private LocalDateTime dateTime;
 
-    @NotBlank(message = "Price must not be empty!")
+    @NotNull(message = "Price must not be empty!")
+    @Positive(message = "Price must be positive!")
     private BigDecimal price;
 
     @NotBlank(message = "Location must not be empty!")
@@ -34,12 +38,9 @@ public class CreateEventRequest {
     private String description;
 
     @NotBlank(message = "Image URL must not be empty!")
-    @URL
+    @URL(message = "Image URL must be valid!")
     private String imageUrl;
 
-    @NotBlank(message = "Event type must not be empty!")
+    @NotNull(message = "Event type must not be empty!")
     private EventType eventType;
-
-    public CreateEventRequest() {}
-
 }
