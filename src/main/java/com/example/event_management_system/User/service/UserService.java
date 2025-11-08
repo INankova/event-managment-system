@@ -15,6 +15,8 @@ import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -89,6 +91,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(userId).orElseThrow(() -> new DomainException("User with id [%s] not found]".formatted(userId)));
     }
 
+    @Transactional
     @CacheEvict(value = "userDetails", key = "#userId")
     public void editUserDetails(UUID userId, UserEditRequest userEditRequest) {
 
@@ -102,12 +105,43 @@ public class UserService implements UserDetailsService {
         user.setLastName(userEditRequest.getLastName());
         user.setEmail(userEditRequest.getEmail());
         user.setProfilePictureUrl(userEditRequest.getProfilePicture());
+        user.setPhoneNumber(userEditRequest.getPhoneNumber());
 
-        if (!userEditRequest.getEmail().isBlank()) {
-            emailService.saveNotification(userId, true, userEditRequest.getEmail());
+        boolean wantsPasswordChange = userEditRequest.getNewPassword() != null && !userEditRequest.getNewPassword().isBlank();
+        if (wantsPasswordChange) {
+            if (userEditRequest.getCurrentPassword() == null || userEditRequest.getCurrentPassword().isBlank()) {
+                throw new DomainException("Current password is required to change password.");
+            }
+            if (!passwordEncoder.matches(userEditRequest.getCurrentPassword(), user.getPassword())) {
+                throw new DomainException("Current password is not correct.");
+            }
+            if (userEditRequest.getConfirmNewPassword() == null ||
+                    !userEditRequest.getNewPassword().equals(userEditRequest.getConfirmNewPassword())) {
+                throw new DomainException("New passwords do not match.");
+            }
+
+            user.setPassword(passwordEncoder.encode(userEditRequest.getNewPassword()));
+            user.setConfirmPassword(user.getPassword());
         }
 
+//        if (!userEditRequest.getEmail().isBlank()) {
+//            emailService.saveNotification(userId, true, userEditRequest.getEmail());
+//        }
+
         userRepository.save(user);
+
+        AuthenticationMetaData updated = new AuthenticationMetaData(
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getRole()
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(
+                        updated, null, updated.getAuthorities()
+                )
+        );
     }
 
     @Override

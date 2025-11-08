@@ -8,6 +8,7 @@ import com.example.event_management_system.Ticket.repository.TicketRepository;
 import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.User.service.UserService;
 import com.example.event_management_system.web.dto.UserEditRequest;
+import com.example.event_management_system.web.mapper.DtoMapper;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -62,17 +63,18 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("edit-profile");
         modelAndView.addObject("user", user);
+        modelAndView.addObject("userEditRequest", DtoMapper.mapUserToUserEditRequest(user));
 
         return modelAndView;
     }
 
-    @PutMapping("/{id}/profile")
+    @PutMapping("/{id}/edit-profile")
     public ModelAndView updateUserProfile(@PathVariable UUID id, @Valid UserEditRequest userEditRequest, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             User user = userService.getById(id);
             ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("profile-menu");
+            modelAndView.setViewName("edit-profile");
             modelAndView.addObject("user", user);
             modelAndView.addObject("userEditRequest", userEditRequest);
             return modelAndView;
@@ -80,6 +82,6 @@ public class UserController {
 
         userService.editUserDetails(id, userEditRequest);
 
-        return new ModelAndView("redirect:/profile");
+        return new ModelAndView("redirect:/users/profile");
     }
 }
