@@ -14,11 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/venues")
 public class VenueController {
 
     private final UserService userService;
@@ -30,7 +32,7 @@ public class VenueController {
         this.venueService = venueService;
     }
 
-    @GetMapping("/venues")
+    @GetMapping
     public ModelAndView getVenuesPage() {
 
 
@@ -46,7 +48,7 @@ public class VenueController {
     }
 
     @GetMapping("/new")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView addNewVenue(@AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
         User user = userService.getById(authenticationMetaData.getId());

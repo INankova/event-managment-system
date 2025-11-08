@@ -4,7 +4,8 @@ import com.example.event_management_system.Event.model.Event;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -33,6 +34,6 @@ public class Venue {
     @Column(nullable = false)
     private String contactInfo;
 
-    @OneToMany(mappedBy = "venue", fetch = FetchType.EAGER)
-    private ArrayList<Event> events = new ArrayList<>();
+    @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Event> events = new HashSet<>();
 }
