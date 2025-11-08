@@ -5,6 +5,12 @@
     --input-bg: #3a3a3a;
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     background: var(--bg-dark);
     color: var(--text-light);
@@ -31,11 +37,11 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.8rem;
-    background: var(--main-gradient); /* Прилага градиента */
-    -webkit-background-clip: text; /* За да работи с текст */
-    -webkit-text-fill-color: transparent; /* Прави текста прозрачен */
-    background-clip: text; /* Стандартен начин за background-clip */
-    color: transparent; /* За резервен браузър */
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
 }
 
 .event-form {
@@ -57,11 +63,6 @@ body {
     grid-column: 1 / -1;
 }
 
-/* Нов клас за подреждане на Location и Description в един ред */
-.form-group.half-width {
-    grid-column: span 1; /* Заема само половин ред */
-}
-
 label {
     display: block;
     margin-bottom: 0.5rem;
@@ -80,14 +81,10 @@ input, select, textarea {
     transition: all 0.3s ease;
 }
 
-/* Оправя ширината на Description */
-#description {
-    height: 20px;
+textarea {
     resize: none;
-    width: 92%; /* За да запълни контейнера */
 }
 
-/* Добавяне на стилизация за Price полето */
 .price-wrapper::before {
     content: "$";
     position: absolute;
@@ -101,28 +98,23 @@ input, select, textarea {
 }
 
 #price {
-    padding-left: 0px !important;
-    width: 350px;
+    padding-left: 2.2rem !important;
+    width: 100%;
 }
 
 #imageUrl {
-    padding-left: 0px;
-    width: 720px;
+    height: 40px;
+    width: 100%;
     text-indent: 10px;
+    display: block;
 }
 
-.image-container {
-    padding-left: 20px; /* Отстъп отляво за контейнера */
-}
-
-/* Стилове при фокусиране на полетата */
 input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: #ff8e53; /* Цветът на рамката при фокус */
-    box-shadow: 0 0 10px rgba(255,107,107,0.3); /* Лека сенка при фокус */
+    border-color: #ff8e53;
+    box-shadow: 0 0 10px rgba(255,107,107,0.3);
 }
 
-/* Стилове за бутоните */
 .btn-submit, .btn-update {
     background: var(--main-gradient);
     color: white;
@@ -143,7 +135,6 @@ input:focus, select:focus, textarea:focus {
     box-shadow: 0 5px 15px rgba(255,107,107,0.5);
 }
 
-/* Responsive стилове */
 @media (max-width: 768px) {
     body {
         padding: 1rem;
@@ -163,11 +154,7 @@ input:focus, select:focus, textarea:focus {
     }
 
     #price {
-        padding-left: 30px !important;
+        padding-left: 2rem !important;
     }
 
-    /* За мобилни устройства Description и Location да бъдат на отделни редове */
-    .form-group.half-width {
-        grid-column: 1 / -1;
-    }
 }

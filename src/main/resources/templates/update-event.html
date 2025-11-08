@@ -13,20 +13,18 @@
     <h1><i class="fas fa-edit fa-sm"></i> Update Event</h1>
   </div>
 
-  <!-- ⚙️ ВАЖНО: th:object и th:action съвпадат с @PutMapping("/{id}/update") -->
-  <form th:action="@{/events/{id}/update(id=${eventEditRequest.id})}"
+  <form class="event-form"
+        th:action="@{/events/{id}/update(id=${eventEditRequest.id})}"
         th:object="${eventEditRequest}"
         method="post">
     <input type="hidden" name="_method" value="put"/>
     <input type="hidden" th:field="*{id}"/>
 
-    <!-- Заглавие -->
     <div class="form-group">
       <label for="title"><i class="fas fa-heading"></i> Event Title</label>
       <input type="text" id="title" th:field="*{title}">
     </div>
 
-    <!-- Категория -->
     <div class="form-group">
       <label for="eventType"><i class="fas fa-tag"></i> Category</label>
       <select id="eventType" th:field="*{eventType}">
@@ -37,44 +35,35 @@
       </select>
     </div>
 
-    <!-- Дата и час -->
     <div class="form-group">
       <label for="dateTime"><i class="fas fa-calendar-day"></i> Date & Time</label>
-      <input
-              type="datetime-local"
-              id="dateTime"
-              th:field="*{dateTime}">
+      <input type="datetime-local" id="dateTime" th:field="*{dateTime}">
       <div class="error" th:if="${#fields.hasErrors('dateTime')}" th:errors="*{dateTime}"></div>
     </div>
 
-    <!-- Цена -->
     <div class="form-group price-wrapper">
       <label for="price"><i class="fas fa-ticket"></i> Price</label>
       <input type="number" id="price" step="0.01" th:field="*{price}">
     </div>
 
-    <!-- Локация -->
     <div class="form-group">
       <label for="location"><i class="fas fa-map-marker-alt"></i> Location</label>
       <input type="text" id="location" th:field="*{location}">
     </div>
 
-    <!-- Описание -->
-    <div class="form-group half-width">
+    <div class="form-group">
       <label for="description"><i class="fas fa-align-left"></i> Description</label>
       <textarea id="description" rows="3" th:field="*{description}"></textarea>
     </div>
 
-    <!-- URL на изображение -->
     <div class="form-group full-width">
-      <label for="eventImageUrl"><i class="fas fa-image"></i> Event Image URL</label>
-      <input type="url" id="eventImageUrl"
+      <label for="imageUrl"><i class="fas fa-image"></i> Event Image URL</label>
+      <input type="url" id="imageUrl"
              placeholder="https://example.com/image.jpg"
              pattern="https://.*"
              th:field="*{imageUrl}">
     </div>
 
-    <!-- Бутон за запазване -->
     <div class="form-group full-width">
       <button type="submit" class="btn-submit">Update Event</button>
     </div>

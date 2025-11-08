@@ -1,5 +1,6 @@
 :root {
     --main-gradient: linear-gradient(145deg, #ff6b6b 0%, #ff8e53 100%);
+    --venues-gradient: linear-gradient(145deg, #34d399 0%, #10b981 100%);
     --ticket-bg: linear-gradient(145deg, #fff 0%, #f8f9fa 100%);
     --text-dark: #2c2c2c;
 }
@@ -214,6 +215,41 @@ main {
             inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Нов зелен бутон */
+.view-venues {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn-venues {
+    background: var(--venues-gradient);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-venues:hover {
+    transform: scale(1.05);
+    box-shadow:
+            0 6px 20px rgba(16,185,129,0.4),
+            inset 0 -2px 4px rgba(255,255,255,0.2);
+}
+
+.btn-venues:active {
+    transform: scale(0.98);
+    box-shadow:
+            0 2px 8px rgba(16,185,129,0.3),
+            inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
 .cart-container {
     position: fixed;
     bottom: 30px;
@@ -266,13 +302,12 @@ main {
     align-items: center;
     justify-content: center;
     position: absolute;
-    bottom: 73% ;
+    bottom: 73%;
     right: -2px;
     box-shadow: 0 4px 15px rgba(255,107,107,0.25);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Анимация на значката при hover върху бутона */
 .cart-button:hover #cartCount {
     transform: translateY(-2px) scale(1.05);
     box-shadow:
