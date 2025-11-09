@@ -33,7 +33,7 @@ public class TicketController {
         return "redirect:/users/profile";
     }
 
-    @GetMapping("/tickets")
+    @GetMapping
     public ModelAndView showTickets(UUID userId) {
         List<Ticket> tickets = ticketRepository.findByOwnerId(userId);
         ModelAndView modelAndView = new ModelAndView();

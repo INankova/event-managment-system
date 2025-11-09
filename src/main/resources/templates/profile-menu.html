@@ -97,9 +97,10 @@
                 <div class="ticket-header">
                     <h3 th:text="${ticket.event.title}">Event Title</h3>
                     <div class="ticket-header-right">
-                        <form th:action="@{/tickets/cancel/{id}(id=${ticket.id})}" method="post">
+                        <form th:action="@{/tickets/{ticketId}/cancel(ticketId=${ticket.id})}" method="post">
                             <button type="submit" class="btn-cancel">Cancel</button>
                         </form>
+
                         <span class="ticket-status"
                               th:text="${ticket.status}"
                               th:classappend="${ticket.status}">
@@ -119,9 +120,6 @@
                     </p>
                     <p><i class="fas fa-map-marker-alt"></i>
                         <span th:text="${ticket.event.location}">Location</span>
-                    </p>
-                    <p><i class="fas fa-ticket-alt"></i>
-                        Ticket ID: <span th:text="'#' + ${ticket.id}">#TX000000</span>
                     </p>
                 </div>
             </div>

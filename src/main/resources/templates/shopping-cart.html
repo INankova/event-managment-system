@@ -3,104 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Количка - TicketWave</title>
+    <title>Shopping Cart - TicketWave</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="/css/shopping-cart.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/shopping-cart.css}">
 </head>
 <body>
 <header class="header">
-    <div class="ticket-header animate-slide">
-        <h1>🎟️ Shopping Cart</h1>
+    <div class="back-nav">
+        <a th:href="@{ / }" class="btn-back">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
+        </a>
+    </div>
+    <div class="ticket-header">
+        <h1 class="title-animated">🎟️ Shopping Cart</h1>
     </div>
 </header>
 
 <main class="cart-page">
     <section class="cart-items">
-        <!-- Цикъл за всеки артикул в количката -->
-        <article class="cart-item animate-slide" th:each="item : ${cart.items}">
-            <div class="item-details">
-                <header class="event-header">
-                    <h2 th:text="${item.event.title}">Imagine Dragons: Mercury World Tour</h2>
-                    <span class="event-category concert" th:text="${item.event.category}">Концерт</span>
-                </header>
 
-                <dl class="event-meta">
-                    <div class="meta-item">
-                        <dt><i class="fas fa-calendar-day" aria-hidden="true"></i> Дата:</dt>
-                        <dd th:text="${#temporals.format(item.event.dateTime, 'dd MMMM yyyy')}">15 октомври 2024</dd>
-                    </div>
-                    <div class="meta-item">
-                        <dt><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Място:</dt>
-                        <dd th:text="${item.event.location}">Национален стадион, София</dd>
-                    </div>
-                </dl>
-
-                <div class="item-controls">
-                    <!-- Форма за намаляване на количеството -->
-                    <form th:action="@{/cart/decrease-quantity}" method="post" class="quantity-controls">
-                        <input type="hidden" name="eventId" th:value="${item.event.id}">
-                        <button type="submit" class="btn-quantity" aria-label="Намали количество">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </form>
-
-                    <!-- Показване на количеството -->
-                    <span class="quantity" th:text="${item.quantity}"></span>
-
-                    <!-- Форма за увеличаване на количеството -->
-                    <form th:action="@{/cart/increase-quantity}" method="post" class="quantity-controls">
-                        <input type="hidden" name="eventId" th:value="${item.event.id}">
-                        <button type="submit" class="btn-quantity" aria-label="Увеличи количество">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </form>
-
-                    <!-- Форма за премахване на артикула -->
-                    <form th:action="@{/cart/remove-item}" method="post" class="price-container">
-                        <input type="hidden" name="eventId" th:value="${item.event.id}">
-                        <span class="price" th:text="${item.event.price * item.quantity} + ' лв'">120.00 лв</span>
-                        <button type="submit" class="btn-remove" aria-label="Премахни от количка">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </form>
-                </div>
+        <!-- Празна количка -->
+        <div class="empty-wrap"
+             th:if="${cart == null or #lists.isEmpty(cart.items)}">
+            <div class="empty-ribbon">
+                <span class="empty-text">Shopping cart is empty</span>
             </div>
-        </article>
+        </div>
+
+        <!-- Има артикули -->
+        <th:block th:if="${cart != null and !#lists.isEmpty(cart.items)}">
+            <article class="cart-item animate-slide" th:each="item : ${cart.items}">
+                <div class="item-details">
+                    <header class="event-header">
+                        <h2 th:text="${item.event.title}">Title</h2>
+                        <span class="event-category" th:text="${item.event.eventType}">Категория</span>
+                    </header>
+
+                    <dl class="event-meta">
+                        <div class="meta-item">
+                            <dt><i class="fas fa-calendar-day"></i> Data:</dt>
+                            <dd th:text="${#temporals.format(item.event.dateTime, 'dd MMMM yyyy')}">15 октомври 2024</dd>
+                        </div>
+                        <div class="meta-item">
+                            <dt><i class="fas fa-map-marker-alt"></i> Location:</dt>
+                            <dd th:text="${item.event.location}">Локация</dd>
+                        </div>
+                    </dl>
+
+                    <div class="item-controls">
+                        <!-- - -->
+                        <form th:action="@{/cart/decrease-quantity/{id}(id=${item.event.id})}"
+                              method="post" class="quantity-controls">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn-quantity">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </form>
+
+                        <span class="quantity" th:text="${item.quantity}">1</span>
+
+                        <!-- + -->
+                        <form th:action="@{/cart/increase-quantity/{id}(id=${item.event.id})}"
+                              method="post" class="quantity-controls">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn-quantity">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </form>
+
+                        <!-- Цена + remove -->
+                        <form th:action="@{/cart/remove-item/{id}(id=${item.event.id})}"
+                              method="post" class="price-container">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <!-- Ако пазиш freeze-ната цена в item.price, ползвай нея, иначе event.price -->
+                            <span class="price"
+                                  th:text="${#numbers.formatDecimal(((item.price != null ? item.price : item.event.price) * item.quantity), 1, 'COMMA', 2, 'POINT')} + ' лв'">
+                                120,00 лв
+                            </span>
+                            <button type="submit" class="btn-remove" title="Премахни">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        </th:block>
     </section>
 
-    <aside class="cart-summary animate-slide">
+    <!-- Обобщение -->
+    <aside class="cart-summary animate-slide"
+           th:if="${cart != null and !#lists.isEmpty(cart.items)}">
         <div class="summary-ticket">
-            <h2 class="summary-title">Детайли на поръчката</h2>
+            <h2 class="summary-title">Order details</h2>
 
             <div class="total-line">
                 <span>Междинна сума:</span>
-                <span th:text="${totalPrice} + ' лв'">240.00 лв</span>
+                <span th:text="${#numbers.formatDecimal(totalPrice, 1, 'COMMA', 2, 'POINT')} + ' лв'">240,00 лв</span>
             </div>
             <div class="total-line">
                 <span>Такси обслужване:</span>
-                <span>12.00 лв</span>
+                <span>12,00 лв</span>
             </div>
             <div class="total-line main-total">
                 <span>Общо:</span>
-                <span class="total-price" th:text="${totalPrice + 12} + ' лв'">252.00 лв</span>
+                <span class="total-price"
+                      th:text="${#numbers.formatDecimal(totalPrice + 12, 1, 'COMMA', 2, 'POINT')} + ' лв'">252,00 лв</span>
             </div>
 
-            <section class="payment-options" aria-label="Начини на плащане">
-                <h3>Поддържани методи:</h3>
+            <section class="payment-options">
+                <h3>Payment methods:</h3>
                 <div class="payment-icons">
-                    <i class="fab fa-cc-visa" aria-hidden="true"></i>
-                    <i class="fab fa-cc-mastercard" aria-hidden="true"></i>
-                    <i class="fab fa-cc-paypal" aria-hidden="true"></i>
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-paypal"></i>
                 </div>
             </section>
 
-            <form th:action="@{/cart/checkout}" method="post">
-                <input type="hidden" name="userId" th:value="${currentUser.id}">
+            <form th:if="${user != null}" th:action="@{/cart/checkout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <input type="hidden" name="userId" th:value="${user.id}">
                 <button type="submit" class="btn-checkout">
-                    Сигурно плащане
-                    <i class="fas fa-lock" aria-hidden="true"></i>
+                    Safe Payment
+                    <i class="fas fa-lock"></i>
                 </button>
             </form>
+
+            <div th:if="${user == null}">
+                <p>Моля, <a th:href="@{/login}">влезте</a>, за да завършите поръчката.</p>
+            </div>
         </div>
     </aside>
 </main>

@@ -43,8 +43,7 @@
                 <p class="description" th:text="${event.description}"></p>
                 <div class="price-section">
                     <span class="price" th:text="'$' + ${event.price}"></span>
-                    <form th:action="@{/cart/add}" method="post">
-                        <input type="hidden" name="eventId" th:value="${event.id}">
+                    <form th:action="@{|/cart/add/${event.id}|}" method="post">
                         <button type="submit" class="buy-btn">Get Ticket</button>
                     </form>
                 </div>

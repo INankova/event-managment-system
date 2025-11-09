@@ -26,7 +26,7 @@ public class CartController {
         this.checkoutService = checkoutService;
     }
 
-    @GetMapping("/shopping-cart")
+    @GetMapping
     public ModelAndView shoppingCart(@AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
         Cart cart = cartService.getShoppingCart(authenticationMetaData.getId());
@@ -37,11 +37,12 @@ public class CartController {
         modelAndView.setViewName("shopping-cart");
         modelAndView.addObject("cart", cart);
         modelAndView.addObject("totalPrice", totalPrice);
+        modelAndView.addObject("user", authenticationMetaData);
 
         return modelAndView;
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add/{eventId}")
     public String addToCart(@PathVariable UUID eventId, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
         cartService.addToCart(authenticationMetaData.getId(), eventId);
@@ -49,31 +50,31 @@ public class CartController {
         return "redirect:/home";
     }
 
-    @PostMapping("/increase-quantity")
+    @PostMapping("/increase-quantity/{eventId}")
     public String increaseQuantity(@PathVariable UUID eventId, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
         cartService.increaseQuantity(authenticationMetaData.getId(), eventId);
 
-        return "redirect:/cart/shopping-cart";
+        return "redirect:/cart";
     }
 
-    @PostMapping("/decrease-quantity")
+    @PostMapping("/decrease-quantity/{eventId}")
     public String decreaseQuantity(@PathVariable UUID eventId, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
         cartService.decreaseQuantity(authenticationMetaData.getId(), eventId);
-        return "redirect:/cart/shopping-cart";
+        return "redirect:/cart";
     }
 
-    @PostMapping("/remove-item")
+    @PostMapping("/remove-item/{eventId}")
     public String removeItem(@PathVariable UUID eventId, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
         cartService.removeItem(authenticationMetaData.getId(), eventId);
-        return "redirect:/cart/shopping-cart";
+        return "redirect:/cart";
     }
 
-    @PostMapping("/cart/checkout")
-    public String checkout(@PathVariable UUID userId) {
-        checkoutService.processCheckout(userId);
-        return "redirect:/profile-menu";
+    @PostMapping("/checkout")
+    public String checkout(@AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
+        checkoutService.processCheckout(authenticationMetaData.getId());
+        return "redirect:/users/profile";
     }
 }

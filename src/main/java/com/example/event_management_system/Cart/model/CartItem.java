@@ -29,8 +29,4 @@ public class CartItem {
     @ManyToOne
     private Cart cart;
 
-    public CartItem(Event event, int quantity) {
-        this.event = event;
-        this.quantity = quantity;
-    }
 }
