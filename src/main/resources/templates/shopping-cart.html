@@ -9,30 +9,29 @@
 </head>
 <body>
 <header class="header">
-    <div class="back-nav">
-        <a th:href="@{ / }" class="btn-back">
-            <i class="fas fa-arrow-left" aria-hidden="true"></i> Back
+    <div class="profile-container header-inner">
+        <a th:href="@{/}" class="btn-back">
+            <i class="fas fa-arrow-left" aria-hidden="true"></i>
+            Back
         </a>
-    </div>
-    <div class="ticket-header">
-        <h1 class="title-animated">🎟️ Shopping Cart</h1>
+        <div class="cart-header-block">
+            <h1 class="cart-title">🎟️ Shopping Cart</h1>
+        </div>
     </div>
 </header>
 
 <main class="cart-page">
-    <section class="cart-items">
-
-        <!-- Празна количка -->
-        <div class="empty-wrap"
-             th:if="${cart == null or #lists.isEmpty(cart.items)}">
-            <div class="empty-ribbon">
-                <span class="empty-text">Shopping cart is empty</span>
+    <section class="cart-items-wrapper">
+        <div class="cart-items" th:if="${cart == null or #lists.isEmpty(cart.items)}">
+            <div class="empty-wrap">
+                <div class="empty-ribbon">
+                    <span class="empty-text">Shopping cart is empty</span>
+                </div>
             </div>
         </div>
 
-        <!-- Има артикули -->
-        <th:block th:if="${cart != null and !#lists.isEmpty(cart.items)}">
-            <article class="cart-item animate-slide" th:each="item : ${cart.items}">
+        <div class="cart-items" th:if="${cart != null and !#lists.isEmpty(cart.items)}">
+            <article class="cart-item" th:each="item : ${cart.items}">
                 <div class="item-details">
                     <header class="event-header">
                         <h2 th:text="${item.event.title}">Title</h2>
@@ -41,17 +40,16 @@
 
                     <dl class="event-meta">
                         <div class="meta-item">
-                            <dt><i class="fas fa-calendar-day"></i> Data:</dt>
+                            <dt><i class="fas fa-calendar-day"></i> Дата:</dt>
                             <dd th:text="${#temporals.format(item.event.dateTime, 'dd MMMM yyyy')}">15 октомври 2024</dd>
                         </div>
                         <div class="meta-item">
-                            <dt><i class="fas fa-map-marker-alt"></i> Location:</dt>
+                            <dt><i class="fas fa-map-marker-alt"></i> Локация:</dt>
                             <dd th:text="${item.event.location}">Локация</dd>
                         </div>
                     </dl>
 
                     <div class="item-controls">
-                        <!-- - -->
                         <form th:action="@{/cart/decrease-quantity/{id}(id=${item.event.id})}"
                               method="post" class="quantity-controls">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
@@ -62,7 +60,6 @@
 
                         <span class="quantity" th:text="${item.quantity}">1</span>
 
-                        <!-- + -->
                         <form th:action="@{/cart/increase-quantity/{id}(id=${item.event.id})}"
                               method="post" class="quantity-controls">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
@@ -71,11 +68,9 @@
                             </button>
                         </form>
 
-                        <!-- Цена + remove -->
                         <form th:action="@{/cart/remove-item/{id}(id=${item.event.id})}"
                               method="post" class="price-container">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                            <!-- Ако пазиш freeze-ната цена в item.price, ползвай нея, иначе event.price -->
                             <span class="price"
                                   th:text="${#numbers.formatDecimal(((item.price != null ? item.price : item.event.price) * item.quantity), 1, 'COMMA', 2, 'POINT')} + ' лв'">
                                 120,00 лв
@@ -87,12 +82,10 @@
                     </div>
                 </div>
             </article>
-        </th:block>
+        </div>
     </section>
 
-    <!-- Обобщение -->
-    <aside class="cart-summary animate-slide"
-           th:if="${cart != null and !#lists.isEmpty(cart.items)}">
+    <aside class="cart-summary" th:if="${cart != null and !#lists.isEmpty(cart.items)}">
         <div class="summary-ticket">
             <h2 class="summary-title">Order details</h2>
 
@@ -119,7 +112,7 @@
                 </div>
             </section>
 
-            <form th:if="${user != null}" th:action="@{/cart/checkout}" method="post">
+            <form th:if="${user != null}" th:action="@{/cart/checkout}" method="post" class="checkout-form">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <input type="hidden" name="userId" th:value="${user.id}">
                 <button type="submit" class="btn-checkout">
@@ -128,7 +121,7 @@
                 </button>
             </form>
 
-            <div th:if="${user == null}">
+            <div th:if="${user == null}" class="login-hint">
                 <p>Моля, <a th:href="@{/login}">влезте</a>, за да завършите поръчката.</p>
             </div>
         </div>

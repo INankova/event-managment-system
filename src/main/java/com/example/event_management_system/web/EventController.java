@@ -54,18 +54,26 @@ public class EventController {
     }
 
     @PostMapping("/new")
-    public String createEvent(@Valid CreateEventRequest createEventRequest,BindingResult bindingResult, @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
-
-        if (bindingResult.hasErrors()) {
-            return "add-new-event";
-        }
+    public ModelAndView createEvent(
+            @Valid @ModelAttribute("createEventRequest") CreateEventRequest createEventRequest,
+            BindingResult bindingResult,
+            @AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
         User user = userService.getById(authenticationMetaData.getId());
 
-        eventService.createNewEvent(createEventRequest, user);
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("add-new-event");
+            modelAndView.addObject("user", user);
+            modelAndView.addObject("createEventRequest", createEventRequest);
+            modelAndView.addObject("eventType", EventType.values());
+            return modelAndView;
+        }
 
-        return "redirect:/home";
+        eventService.createNewEvent(createEventRequest, user);
+        return new ModelAndView("redirect:/home");
     }
+
+
 
     @GetMapping("/update/{id}")
     public ModelAndView showUpdateEventPage(@PathVariable UUID id) {

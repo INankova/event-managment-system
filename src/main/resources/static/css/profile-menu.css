@@ -345,6 +345,42 @@ body {
     border-radius: 4px;
 }
 
+/* Settings floating button */
+.settings-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.6);
+    border: 2px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    z-index: 100;
+}
+
+.settings-btn i {
+    font-size: 1.6rem;
+    transition: transform 0.4s ease;
+}
+
+.settings-btn:hover {
+    transform: translateY(-3px);
+    background: rgba(0,0,0,0.8);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.8);
+}
+
+.settings-btn:hover i {
+    transform: rotate(360deg);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .profile-header {

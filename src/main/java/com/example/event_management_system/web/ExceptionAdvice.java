@@ -21,12 +21,6 @@ public class ExceptionAdvice {
     @ExceptionHandler(UsernameAlreadyExistException.class)
     public String handleUsernameAlreadyExist(HttpServletRequest request, RedirectAttributes redirectAttributes, UsernameAlreadyExistException exception) {
 
-        // Option 1
-        //Autowire HttpServletRequest request
-        //String username = request.getParameter("username");
-        //String message = "%s is already in use!".formatted(username);
-
-        // Option 2
         String message = exception.getMessage();
 
         redirectAttributes.addFlashAttribute("usernameAlreadyExistMessage", message);

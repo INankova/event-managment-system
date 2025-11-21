@@ -3,7 +3,6 @@ package com.example.event_management_system.Event.repository;
 import com.example.event_management_system.Event.model.Event;
 import com.example.event_management_system.Event.model.EventType;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -15,5 +14,4 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
     List<Event> findByEventTypeOrderByTitle(EventType eventType);
     List<Event> findByOwnerId(UUID userId);
     List<Event> findByDateTimeBefore(LocalDateTime time);
-    List<Event> findAllByDateTimeBetween(LocalDateTime from, LocalDateTime to);
 }

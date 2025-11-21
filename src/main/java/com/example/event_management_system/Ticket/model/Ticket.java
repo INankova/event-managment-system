@@ -3,7 +3,6 @@ package com.example.event_management_system.Ticket.model;
 import com.example.event_management_system.Event.model.Event;
 import com.example.event_management_system.User.model.User;
 import jakarta.persistence.*;
-import jdk.jfr.Category;
 import lombok.*;
 
 import java.math.BigDecimal;
