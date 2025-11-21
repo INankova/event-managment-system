@@ -1,8 +1,10 @@
 package com.example.event_management_system.email.Client;
 
+import com.example.event_management_system.email.Client.dto.EventReminderRequest;
 import com.example.event_management_system.email.Client.dto.Notification;
 import com.example.event_management_system.email.Client.dto.NotificationPreference;
 import com.example.event_management_system.email.Client.dto.NotificationRequest;
+import com.example.event_management_system.email.Client.dto.NotificationScheduleRequest;
 import com.example.event_management_system.email.Client.dto.UpsertNotificationPreference;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +39,9 @@ public interface NotificationClient {
     @DeleteMapping
     ResponseEntity<Void> clearHistory(@RequestParam(name = "userId") UUID userId);
 
-    @PostMapping("/digest/weekly/run-now")
-    ResponseEntity<Void> runWeeklyDigestNow();
+    @PostMapping("/reminders/schedule")
+    ResponseEntity<Void> scheduleReminder(@RequestBody NotificationScheduleRequest request);
+
+    @PostMapping("/reminders/event")
+    ResponseEntity<Void> scheduleEventReminders(@RequestBody EventReminderRequest request);
 }

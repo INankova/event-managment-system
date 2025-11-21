@@ -1,7 +1,14 @@
 package com.example.event_management_system.email.Client.dto;
 
-import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class NotificationPreference {
 
     private String type;

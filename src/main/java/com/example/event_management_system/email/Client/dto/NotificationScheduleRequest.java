@@ -1,21 +1,16 @@
 package com.example.event_management_system.email.Client.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class NotificationRequest {
-
+public class NotificationScheduleRequest {
     private UUID userId;
-
     private String subject;
-
     private String body;
+    private LocalDateTime scheduledAt;
 }

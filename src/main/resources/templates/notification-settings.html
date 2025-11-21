@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TicketZone - Notifications</title>
+    <link rel="stylesheet" type="text/css" href="/css/notification-settings.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<div class="profile-container">
+
+    <header class="profile-header">
+        <a th:href="@{/users/profile}" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Back to Profile
+        </a>
+
+        <div class="header-right">
+            <h1 class="manage-title">Notifications</h1>
+
+            <form th:action="@{/notifications/user-preference}" method="post" id="preferenceForm">
+                <input type="hidden" name="_method" value="put"/>
+                <input type="hidden" name="enabled"
+                       th:value="${notificationPreference != null and notificationPreference.enabled} ? false : true"/>
+
+                <button type="submit"
+                        id="notificationToggle"
+                        class="btn-bell"
+                        th:classappend="${notificationPreference == null or !notificationPreference.enabled} ? ' muted' : ''">
+                    <i class="fas fa-bell"></i>
+                    <span class="bell-strike"></span>
+                </button>
+            </form>
+        </div>
+    </header>
+
+    <main class="manage-events-container">
+
+        <section class="notifications-section">
+            <h2 class="section-title">Notification History</h2>
+
+            <div class="notifications-box">
+
+                <div th:if="${notificationHistory == null or #lists.isEmpty(notificationHistory)}"
+                     class="notification-empty">
+                    No notifications yet
+                </div>
+
+                <div th:each="notification : ${notificationHistory}" class="notification-item">
+
+                    <div class="notification-header">
+                        <div class="notification-header-left">
+                            <h3 class="notification-title"
+                                th:text="${notification.subject}">
+                            </h3>
+                        </div>
+
+                        <span class="notification-date"
+                              th:text="${#temporals.format(notification.createdOn, 'dd MMM yyyy HH:mm')}">
+                        </span>
+                    </div>
+
+                    <p class="notification-body"
+                       th:text="${notification.body}">
+                    </p>
+
+                </div>
+
+            </div>
+        </section>
+
+        <form th:action="@{/notifications}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit" class="btn-clear-history">
+                <i class="fas fa-trash"></i> Clear history
+            </button>
+        </form>
+
+        <section class="preferences-section">
+            <h2 class="section-title">Notification Preferences</h2>
+
+            <div class="preferences-box">
+                <div class="preference-row">
+                    <span class="preference-label">Status:</span>
+                    <span class="preference-value"
+                          th:text="${notificationPreference != null and notificationPreference.enabled} ? 'Enabled' : 'Disabled'">
+                    </span>
+                </div>
+
+                <div class="preference-actions">
+                    <button type="submit" form="preferenceForm" class="btn-preference-toggle">
+                        <span th:text="${notificationPreference != null and notificationPreference.enabled} ? 'Disable notifications' : 'Enable notifications'"></span>
+                    </button>
+
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+</div>
+
+<script>
+    const bellButton = document.getElementById('notificationToggle');
+    if (bellButton) {
+        bellButton.addEventListener('click', () => {
+            bellButton.classList.toggle('muted');
+        });
+    }
+</script>
+
+</body>
+</html>

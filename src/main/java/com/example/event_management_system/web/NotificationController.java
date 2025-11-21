@@ -35,13 +35,17 @@ public class NotificationController {
     @GetMapping
     public ModelAndView getNotificationPage(@AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
-        User user = userService.getById(authenticationMetaData.getId());
+        UUID userId = authenticationMetaData.getId();
+        User user = userService.getById(userId);
 
         NotificationPreference notificationPreference = emailService.getNotificationPreference(user.getId());
         List<Notification> notificationHistory = emailService.getNotificationHistory(user.getId());
-        notificationHistory = notificationHistory.stream().limit(3).filter(notification -> notification.getStatus().equals("SUCCEEDED")).toList();
+        notificationHistory = notificationHistory.stream()
+                .limit(3)
+                .filter(notification -> "SUCCEEDED".equals(notification.getStatus()))
+                .toList();
 
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("notification-settings");
         modelAndView.addObject("user", user);
         modelAndView.addObject("notificationPreference", notificationPreference);
         modelAndView.addObject("notificationHistory", notificationHistory);
@@ -50,7 +54,8 @@ public class NotificationController {
     }
 
     @PutMapping("/user-preference")
-    public String updateUserPreference(@RequestParam(name = "enabled") boolean enabled, @AuthenticationPrincipal AuthenticationMetaData authenticationMetadata) {
+    public String updateUserPreference(@RequestParam(name = "enabled") boolean enabled,
+                                       @AuthenticationPrincipal AuthenticationMetaData authenticationMetadata) {
 
         emailService.changeNotificationPreference(authenticationMetadata.getId(), enabled);
 
