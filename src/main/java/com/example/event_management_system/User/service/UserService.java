@@ -56,6 +56,8 @@ public class UserService implements UserDetailsService {
 
         log.info("User created: {}", user.getUsername());
 
+        emailService.saveNotification(user.getId(), true, user.getEmail());
+
         RegisterNotificationEvent event = RegisterNotificationEvent.builder()
                 .userId(user.getId())
                 .email(user.getEmail())
@@ -124,9 +126,9 @@ public class UserService implements UserDetailsService {
             user.setConfirmPassword(user.getPassword());
         }
 
-//        if (!userEditRequest.getEmail().isBlank()) {
-//            emailService.saveNotification(userId, true, userEditRequest.getEmail());
-//        }
+        if (!userEditRequest.getEmail().isBlank()) {
+            emailService.saveNotification(userId, true, userEditRequest.getEmail());
+        }
 
         userRepository.save(user);
 

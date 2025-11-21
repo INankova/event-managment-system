@@ -31,7 +31,6 @@ public class TicketService {
             throw new DomainException("Ticket is already cancelled");
         }
 
-
         ticket.setStatus(TicketStatus.CANCELLED);
         ticketRepository.save(ticket);
     }
