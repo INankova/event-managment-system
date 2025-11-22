@@ -18,10 +18,13 @@ public class EventScheduler {
     @Scheduled(cron = "0 0 2 * * ?")
     public void deleteExpiredEvents() {
         LocalDateTime now = LocalDateTime.now();
+        System.out.println("### deleteExpiredEvents RUNNING at " + now);
+
         List<Event> expiredEvents = eventService.findEventsBefore(now);
 
         for (Event event : expiredEvents) {
-            eventService.deleteEvent(event.getId());
+            System.out.println("### Deleting expired event: " + event.getId());
+            eventService.deleteEventWithTickets(event.getId());
         }
     }
 }

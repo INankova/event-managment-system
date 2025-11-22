@@ -124,8 +124,12 @@ public class EmailService {
 
     @EventListener
     public void onRegisterNotification(RegisterNotificationEvent e) {
-        String subject = "Напомняне за събитие: " + e.getEventName();
-        String body = "Събитието започва на " + e.getEventStart() + ". Приятно изкарване!";
+
+        log.error("### onRegisterNotification CALLED: userId={}, event='{}', start={}",
+                e.getUserId(), e.getEventName(), e.getEventStart());
+
+        String subject = "Event Reminder: " + e.getEventName();
+        String body = "The event starts on " + e.getEventStart() + ". Enjoy!";
 
         scheduleEventReminders(
                 e.getUserId(),
@@ -135,10 +139,14 @@ public class EmailService {
                 List.of(1440, 120)
         );
 
-        log.info("Планирани напомняния за събитие '{}' за потребител {}", e.getEventName(), e.getUserId());
+        log.info("Scheduled event reminders for '{}' for user {}", e.getEventName(), e.getUserId());
     }
 
     public void scheduleReminder(UUID userId, String subject, String body, LocalDateTime scheduledAt) {
+
+        log.error("### scheduleReminder CALLED: userId={}, subject='{}', scheduledAt={}",
+                userId, subject, scheduledAt);
+
         NotificationScheduleRequest req = NotificationScheduleRequest.builder()
                 .userId(userId)
                 .subject(subject)
@@ -147,6 +155,8 @@ public class EmailService {
                 .build();
         try {
             ResponseEntity<Void> resp = notificationClient.scheduleReminder(req);
+            log.error("### scheduleReminder RESPONSE: status={}", resp.getStatusCode());
+
             if (!resp.getStatusCode().is2xxSuccessful()) {
                 log.error("scheduleReminder failed for userId={}, status={}", userId, resp.getStatusCode());
             }

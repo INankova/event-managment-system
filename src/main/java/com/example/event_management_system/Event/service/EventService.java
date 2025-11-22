@@ -2,14 +2,18 @@ package com.example.event_management_system.Event.service;
 
 import com.example.event_management_system.Event.model.Event;
 import com.example.event_management_system.Event.repository.EventRepository;
+import com.example.event_management_system.Ticket.repository.TicketRepository;
 import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.exception.DomainException;
 import com.example.event_management_system.web.dto.CreateEventRequest;
 import com.example.event_management_system.web.dto.EventEditRequest;
+import com.example.event_management_system.web.dto.RegisterNotificationEvent;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,10 +24,14 @@ import java.util.UUID;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final ApplicationEventPublisher eventPublisher;
+    private final TicketRepository ticketRepository;
 
     @Autowired
-    public EventService(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository, ApplicationEventPublisher eventPublisher, TicketRepository ticketRepository) {
         this.eventRepository = eventRepository;
+        this.eventPublisher = eventPublisher;
+        this.ticketRepository = ticketRepository;
     }
 
     @Cacheable(value = "event", key = "#id")
@@ -66,10 +74,28 @@ public class EventService {
                 .build();
 
         eventRepository.save(event);
+
+        eventPublisher.publishEvent(
+                new RegisterNotificationEvent(
+                        user.getId(),
+                        user.getEmail(),
+                        event.getTitle(),
+                        event.getDateTime()
+                )
+        );
     }
 
     @Cacheable("events")
     public List<Event> findEventsBefore(LocalDateTime time) {
         return eventRepository.findByDateTimeBefore(time);
+    }
+
+    @Transactional
+    @CacheEvict(value = "event", key = "#id")
+    public void deleteEventWithTickets(UUID id) {
+
+        ticketRepository.deleteByEventId(id);
+        
+        eventRepository.deleteById(id);
     }
 }

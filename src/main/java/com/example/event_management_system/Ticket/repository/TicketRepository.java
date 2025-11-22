@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface TicketRepository extends JpaRepository<Ticket, UUID> {
 
     List<Ticket> findByOwnerId(UUID userId);
+
+    void deleteByEventId(UUID eventId);
 }
