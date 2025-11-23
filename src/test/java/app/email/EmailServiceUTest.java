@@ -327,8 +327,8 @@ class EmailServiceUTest {
 
         verify(spyService).scheduleEventReminders(
                 eq(event.getUserId()),
-                contains("Party"),
-                contains("Приятно изкарване"),
+                eq("Event Reminder: " + event.getEventName()),
+                eq("The event starts on " + event.getEventStart() + ". Enjoy!"),
                 eq(event.getEventStart()),
                 eq(List.of(1440, 120))
         );

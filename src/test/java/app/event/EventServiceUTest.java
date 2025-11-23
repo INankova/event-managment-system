@@ -8,10 +8,12 @@ import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.exception.DomainException;
 import com.example.event_management_system.web.dto.CreateEventRequest;
 import com.example.event_management_system.web.dto.EventEditRequest;
+import com.example.event_management_system.web.dto.RegisterNotificationEvent;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,6 +29,9 @@ class EventServiceUTest {
 
     @Mock
     private EventRepository eventRepository;
+
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
 
     @InjectMocks
     private EventService eventService;
@@ -113,7 +118,8 @@ class EventServiceUTest {
     }
 
     @Test
-    void createNewEvent_shouldBuildEventFromRequestAndUser_andSave() {
+    void createNewEvent_shouldBuildEventFromRequestAndUser_andSave_andPublishRegisterNotificationEvent() {
+
         CreateEventRequest request = new CreateEventRequest();
         request.setTitle("New event");
         request.setDescription("Some description");
@@ -126,6 +132,10 @@ class EventServiceUTest {
         User owner = new User();
         owner.setId(UUID.randomUUID());
         owner.setUsername("john");
+        owner.setEmail("john@example.com");
+
+        when(eventRepository.save(any(Event.class)))
+                .thenAnswer(inv -> inv.getArgument(0));
 
         eventService.createNewEvent(request, owner);
 
@@ -141,6 +151,17 @@ class EventServiceUTest {
         assertEquals("img.png", saved.getEventImageUrl());
         assertEquals(EventType.CONCERTS, saved.getEventType());
         assertEquals(owner, saved.getOwner());
+
+        ArgumentCaptor<RegisterNotificationEvent> registerEventCaptor =
+                ArgumentCaptor.forClass(RegisterNotificationEvent.class);
+
+        verify(eventPublisher).publishEvent(registerEventCaptor.capture());
+
+        RegisterNotificationEvent published = registerEventCaptor.getValue();
+        assertEquals(owner.getId(), published.getUserId());
+        assertEquals(owner.getEmail(), published.getEmail());
+        assertEquals(request.getTitle(), published.getEventName());
+        assertEquals(request.getDateTime(), published.getEventStart());
     }
 
     @Test
