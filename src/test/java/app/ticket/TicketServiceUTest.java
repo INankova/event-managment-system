@@ -1,7 +1,6 @@
 package app.ticket;
 
 import com.example.event_management_system.Event.model.Event;
-import com.example.event_management_system.Event.service.EventService;
 import com.example.event_management_system.Ticket.model.Ticket;
 import com.example.event_management_system.Ticket.model.TicketStatus;
 import com.example.event_management_system.Ticket.repository.TicketRepository;
