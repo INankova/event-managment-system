@@ -8,6 +8,7 @@ import com.example.event_management_system.User.repository.UserRepository;
 import com.example.event_management_system.User.service.UserService;
 import com.example.event_management_system.email.service.EmailService;
 import com.example.event_management_system.exception.DomainException;
+import com.example.event_management_system.exception.UsernameAlreadyExistsException;
 import com.example.event_management_system.web.dto.RegisterNotificationEvent;
 import com.example.event_management_system.web.dto.RegisterRequest;
 import com.example.event_management_system.web.dto.UserEditRequest;
@@ -140,7 +141,7 @@ class UserServiceITest {
         req.setEmail("john@example.com");
         req.setPassword("secret");
 
-        assertThrows(UsernameNotFoundException.class,
+        assertThrows(UsernameAlreadyExistsException.class,
                 () -> userService.register(req));
 
         verifyNoInteractions(emailService);

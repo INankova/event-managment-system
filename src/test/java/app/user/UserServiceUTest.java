@@ -7,6 +7,7 @@ import com.example.event_management_system.User.repository.UserRepository;
 import com.example.event_management_system.User.service.UserService;
 import com.example.event_management_system.email.service.EmailService;
 import com.example.event_management_system.exception.DomainException;
+import com.example.event_management_system.exception.UsernameAlreadyExistsException;
 import com.example.event_management_system.web.dto.RegisterNotificationEvent;
 import com.example.event_management_system.web.dto.RegisterRequest;
 import com.example.event_management_system.web.dto.UserEditRequest;
@@ -48,7 +49,6 @@ class UserServiceUTest {
     void tearDown() {
         SecurityContextHolder.clearContext();
     }
-
     @Test
     void register_shouldThrowException_whenUserAlreadyExists() {
         RegisterRequest request = new RegisterRequest();
@@ -60,7 +60,7 @@ class UserServiceUTest {
                 .thenReturn(Optional.of(new User()));
 
         assertThrows(
-                UsernameNotFoundException.class,
+                UsernameAlreadyExistsException.class,
                 () -> userService.register(request)
         );
 

@@ -1,5 +1,6 @@
 package app.web;
 
+import com.example.event_management_system.Cart.service.CartService;
 import com.example.event_management_system.Security.AuthenticationMetaData;
 import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.User.service.UserService;
@@ -23,6 +24,9 @@ class IndexControllerApiTest {
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private CartService cartService;
 
     @InjectMocks
     private IndexController indexController;
@@ -69,15 +73,21 @@ class IndexControllerApiTest {
                 .build();
 
         when(userService.getById(userId)).thenReturn(user);
+        when(cartService.getItemsCount(userId)).thenReturn(3);
 
         ModelAndView mv = indexController.getHomePage(auth);
 
         assertEquals("home", mv.getViewName());
         assertTrue(mv.getModel().containsKey("user"));
+        assertTrue(mv.getModel().containsKey("cartCount"));
+
         assertSame(user, mv.getModel().get("user"));
+        assertEquals(3, mv.getModel().get("cartCount"));
 
         verify(userService).getById(userId);
+        verify(cartService).getItemsCount(userId);
     }
+
 
     @Test
     void getRegisterPage_shouldReturnRegisterViewWithRegisterRequest() {
