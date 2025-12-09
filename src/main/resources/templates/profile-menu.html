@@ -41,11 +41,9 @@
         </div>
     </header>
 
-    <!-- My Events Section -->
     <main class="events-container">
         <h2 class="section-title">My Events</h2>
         <div class="events-box">
-            <!-- Event Loop -->
             <div th:each="event : ${userEvents}" class="event-item">
                 <div class="event-image">
                     <img th:src="${event.eventImageUrl}"
@@ -87,12 +85,9 @@
             </div>
         </div>
     </main>
-
-    <!-- Tickets Section -->
     <main class="tickets-container">
         <h2 class="section-title">My Tickets</h2>
         <div class="tickets-box">
-            <!-- Ticket Loop -->
             <div th:each="ticket : ${userTickets}" class="ticket-item">
                 <div class="ticket-header">
                     <h3 th:text="${ticket.event.title}">Event Title</h3>

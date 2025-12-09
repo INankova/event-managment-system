@@ -1,5 +1,6 @@
 package com.example.event_management_system.web;
 
+import com.example.event_management_system.Cart.service.CartService;
 import com.example.event_management_system.Security.AuthenticationMetaData;
 import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.User.service.UserService;
@@ -20,10 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     private final UserService userService;
+    private final CartService cartService;
 
     @Autowired
-    public IndexController(UserService userService) {
+    public IndexController(UserService userService, CartService cartService) {
         this.userService = userService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/")
@@ -50,10 +53,12 @@ public class IndexController {
     public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationMetaData authenticationMetaData) {
 
         User user = userService.getById(authenticationMetaData.getId());
+        int cartCount = cartService.getItemsCount(user.getId());
 
         ModelAndView mv = new ModelAndView();
         mv.setViewName("home");
         mv.addObject("user", user);
+        mv.addObject("cartCount", cartCount);
 
         return mv;
     }

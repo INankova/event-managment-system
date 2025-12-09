@@ -35,17 +35,17 @@
                 <div class="item-details">
                     <header class="event-header">
                         <h2 th:text="${item.event.title}">Title</h2>
-                        <span class="event-category" th:text="${item.event.eventType}">Категория</span>
+                        <span class="event-category" th:text="${item.event.eventType}">Category</span>
                     </header>
 
                     <dl class="event-meta">
                         <div class="meta-item">
-                            <dt><i class="fas fa-calendar-day"></i> Дата:</dt>
-                            <dd th:text="${#temporals.format(item.event.dateTime, 'dd MMMM yyyy')}">15 октомври 2024</dd>
+                            <dt><i class="fas fa-calendar-day"></i> Date:</dt>
+                            <dd th:text="${#temporals.format(item.event.dateTime, 'dd MMMM yyyy')}">15 October 2024</dd>
                         </div>
                         <div class="meta-item">
-                            <dt><i class="fas fa-map-marker-alt"></i> Локация:</dt>
-                            <dd th:text="${item.event.location}">Локация</dd>
+                            <dt><i class="fas fa-map-marker-alt"></i> Location:</dt>
+                            <dd th:text="${item.event.location}">Location</dd>
                         </div>
                     </dl>
 
@@ -72,10 +72,10 @@
                               method="post" class="price-container">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                             <span class="price"
-                                  th:text="${#numbers.formatDecimal(((item.price != null ? item.price : item.event.price) * item.quantity), 1, 'COMMA', 2, 'POINT')} + ' лв'">
-                                120,00 лв
+                                  th:text="'$' + ${#numbers.formatDecimal(((item.price != null ? item.price : item.event.price) * item.quantity), 1, 'COMMA', 2, 'POINT')}">
+                                120,00$
                             </span>
-                            <button type="submit" class="btn-remove" title="Премахни">
+                            <button type="submit" class="btn-remove" title="Remove">
                                 <i class="fas fa-times"></i>
                             </button>
                         </form>
@@ -90,17 +90,17 @@
             <h2 class="summary-title">Order details</h2>
 
             <div class="total-line">
-                <span>Междинна сума:</span>
-                <span th:text="${#numbers.formatDecimal(totalPrice, 1, 'COMMA', 2, 'POINT')} + ' лв'">240,00 лв</span>
+                <span>Subtotal:</span>
+                <span th:text="'$' + ${#numbers.formatDecimal(totalPrice, 1, 'COMMA', 2, 'POINT')}">$240,00</span>
             </div>
             <div class="total-line">
-                <span>Такси обслужване:</span>
-                <span>12,00 лв</span>
+                <span>Tax service:</span>
+                <span>$12,00</span>
             </div>
             <div class="total-line main-total">
-                <span>Общо:</span>
+                <span>Total:</span>
                 <span class="total-price"
-                      th:text="${#numbers.formatDecimal(totalPrice + 12, 1, 'COMMA', 2, 'POINT')} + ' лв'">252,00 лв</span>
+                      th:text="'$' + ${#numbers.formatDecimal(totalPrice + 12, 1, 'COMMA', 2, 'POINT')}">$252,00</span>
             </div>
 
             <section class="payment-options">
@@ -122,7 +122,7 @@
             </form>
 
             <div th:if="${user == null}" class="login-hint">
-                <p>Моля, <a th:href="@{/login}">влезте</a>, за да завършите поръчката.</p>
+                <p>Please, <a th:href="@{/login}">login</a>, to finalize order.</p>
             </div>
         </div>
     </aside>

@@ -1,9 +1,10 @@
 package com.example.event_management_system.web;
 
 import com.example.event_management_system.exception.NotificationServiceFeignCallException;
-import com.example.event_management_system.exception.UsernameAlreadyExistException;
+import com.example.event_management_system.exception.UsernameAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MissingRequestValueException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,13 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.nio.file.AccessDeniedException;
-
 @ControllerAdvice
 public class ExceptionAdvice {
 
-    @ExceptionHandler(UsernameAlreadyExistException.class)
-    public String handleUsernameAlreadyExist(HttpServletRequest request, RedirectAttributes redirectAttributes, UsernameAlreadyExistException exception) {
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public String handleUsernameAlreadyExist(HttpServletRequest request, RedirectAttributes redirectAttributes, UsernameAlreadyExistsException exception) {
 
         String message = exception.getMessage();
 
@@ -27,9 +26,8 @@ public class ExceptionAdvice {
         return "redirect:/register";
     }
 
-    @ExceptionHandler(NotificationServiceFeignCallException.class)
+    @ExceptionHandler(com.example.event_management_system.exception.NotificationServiceFeignCallException.class)
     public String handleNotificationFeignCallException(RedirectAttributes redirectAttributes, NotificationServiceFeignCallException exception) {
-
         String message = exception.getMessage();
 
         redirectAttributes.addFlashAttribute("clearHistoryErrorMessage", message);

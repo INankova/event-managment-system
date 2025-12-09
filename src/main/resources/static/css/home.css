@@ -215,7 +215,6 @@ main {
             inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
-/* Нов зелен бутон */
 .view-venues {
     grid-column: 1 / -1;
     display: flex;

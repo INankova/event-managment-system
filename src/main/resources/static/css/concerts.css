@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #4B0082;  /* Индиго */
-    --secondary-color: #00FF88; /* Неоново зелено */
+    --primary-color: #4B0082;
+    --secondary-color: #00FF88;
     --background-light: #f8f7ff;
     --card-bg: #ffffff;
     --text-dark: #2d3436;
@@ -193,7 +193,6 @@ body {
     border-radius: 50%;
 }
 
-/* Медийни заявки за responsive design */
 @media (max-width: 768px) {
     .theater-header {
         padding: 2rem 1rem;

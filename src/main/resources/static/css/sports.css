@@ -134,7 +134,6 @@ body {
     flex-grow: 1;
 }
 
-/* Коригирана секция за цена и бутон */
 .price-section {
     display: grid;
     grid-template-columns: 1fr auto;

@@ -58,7 +58,7 @@
     <form th:action="@{/cart}" method="get">
         <button type="submit" class="cart-button" aria-label="Open cart">
             <i class="fas fa-shopping-cart" aria-hidden="true"></i>
-            <span id="cartCount" aria-label="Items in cart">8</span>
+            <span id="cartCount" th:text="${cartCount}">0</span>
         </button>
     </form>
 </div>

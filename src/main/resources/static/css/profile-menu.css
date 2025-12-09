@@ -18,7 +18,6 @@ body {
     padding: 2rem;
 }
 
-/* Header Styles */
 .profile-header {
     display: flex;
     justify-content: space-between;
@@ -99,7 +98,6 @@ body {
     object-fit: cover;
 }
 
-/* Events Section */
 .events-container {
     background: rgba(255,255,255,0.05);
     border: 2px solid var(--border-color);
@@ -180,7 +178,6 @@ body {
     min-width: 20px;
 }
 
-/* New Action Buttons */
 .event-actions {
     display: flex;
     gap: 0.8rem;
@@ -218,7 +215,6 @@ body {
     box-shadow: 0 3px 10px rgba(255,107,107,0.3);
 }
 
-/* Tickets Section */
 .tickets-container {
     background: rgba(255,255,255,0.05);
     border: 2px solid var(--border-color);
@@ -331,7 +327,6 @@ body {
     margin-right: 0.5rem;
 }
 
-/* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -345,7 +340,6 @@ body {
     border-radius: 4px;
 }
 
-/* Settings floating button */
 .settings-btn {
     position: fixed;
     bottom: 24px;
@@ -381,7 +375,6 @@ body {
     transform: rotate(360deg);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .profile-header {
         flex-direction: column;

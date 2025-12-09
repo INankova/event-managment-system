@@ -1,16 +1,15 @@
 :root {
-    --primary-color: #0a1f3d;       /* Дълбоко индиго */
-    --secondary-color: #c41e3a;    /* Бордово-червен */
-    --accent-gold: #ffd700;        /* Златист акцент */
-    --accent-teal: #2ec4b6;        /* Модерен тийл */
-    --background-light: #f4f5f7;   /* Светъл фон */
-    --card-bg: #ffffff;            /* Чист бял */
-    --text-dark: #2d3436;          /* Тъмен текст */
-    --text-light: #6c757d;         /* Светъл текст */
+    --primary-color: #0a1f3d;
+    --secondary-color: #c41e3a;
+    --accent-gold: #ffd700;
+    --accent-teal: #2ec4b6;
+    --background-light: #f4f5f7;
+    --card-bg: #ffffff;
+    --text-dark: #2d3436;
+    --text-light: #6c757d;
     --shadow: 0 8px 30px rgba(10,31,61,0.1);
 }
 
-/* Основни стилове */
 body {
     background: var(--background-light);
     color: var(--text-dark);
@@ -24,7 +23,7 @@ body {
     padding: 2rem 1.5rem;
 }
 
-/* Хедър секция */
+
 .cinema-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -51,7 +50,6 @@ body {
     color: var(--secondary-color);
 }
 
-/* Стилове за бутон "Add Cinema Event" */
 .add-event-btn {
     background: var(--primary-color);
     color: white;
@@ -106,7 +104,6 @@ body {
     transform: rotate(90deg);
 }
 
-/* Списък със събития */
 .events-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -114,7 +111,6 @@ body {
     padding: 1rem 0;
 }
 
-/* Картичка за събитие */
 .event-card {
     background: var(--card-bg);
     border-radius: 18px;
@@ -147,7 +143,6 @@ body {
     transform: scale(1.03);
 }
 
-/* Детайли за събитието */
 .event-details {
     padding: 1.8rem;
 }
@@ -185,7 +180,6 @@ body {
     margin-bottom: 1.8rem;
 }
 
-/* Цена и бутон */
 .price-section {
     display: flex;
     justify-content: space-between;
@@ -224,7 +218,6 @@ body {
     transform: translateY(-2px);
 }
 
-/* Плаващ бутон */
 .float-btn {
     position: fixed;
     bottom: 2rem;
@@ -248,7 +241,6 @@ body {
     border-radius: 50%;
 }
 
-/* Адаптивен дизайн */
 @media (max-width: 768px) {
     .cinema-header {
         padding: 3rem 1.5rem;

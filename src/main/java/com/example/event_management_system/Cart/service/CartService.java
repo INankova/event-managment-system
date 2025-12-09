@@ -2,6 +2,7 @@ package com.example.event_management_system.Cart.service;
 
 import com.example.event_management_system.Cart.model.Cart;
 import com.example.event_management_system.Cart.model.CartItem;
+import com.example.event_management_system.Cart.repository.CartItemRepository;
 import com.example.event_management_system.Cart.repository.CartRepository;
 import com.example.event_management_system.Event.model.Event;
 import com.example.event_management_system.Event.repository.EventRepository;
@@ -22,6 +23,7 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final EventRepository eventRepository;
+    private final CartItemRepository cartItemRepository;
 
     @Transactional
     @Caching(evict = {
@@ -62,12 +64,12 @@ public class CartService {
     })
     public void increaseQuantity(UUID userId, UUID eventId) {
         Cart cart = cartRepository.findWithItemsByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Количката не е намерена!"));
+                .orElseThrow(() -> new IllegalArgumentException("Cart not found!"));
 
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getEvent().getId().equals(eventId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Артикулът не е намерен!"));
+                .orElseThrow(() -> new IllegalArgumentException("Item not found!"));
 
         item.setQuantity((item.getQuantity() == null ? 0 : item.getQuantity()) + 1);
         cartRepository.save(cart);
@@ -80,12 +82,12 @@ public class CartService {
     })
     public void decreaseQuantity(UUID userId, UUID eventId) {
         Cart cart = cartRepository.findWithItemsByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Количката не е намерена!"));
+                .orElseThrow(() -> new IllegalArgumentException("Cart not found!"));
 
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getEvent().getId().equals(eventId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Артикулът не е намерен!"));
+                .orElseThrow(() -> new IllegalArgumentException("Item not found!"));
 
         int q = item.getQuantity() == null ? 1 : item.getQuantity();
         if (q > 1) {
@@ -105,12 +107,12 @@ public class CartService {
     })
     public void removeItem(UUID userId, UUID eventId) {
         Cart cart = cartRepository.findWithItemsByUserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Количката не е намерена!"));
+                .orElseThrow(() -> new IllegalArgumentException("Cart not found!"));
 
         CartItem item = cart.getItems().stream()
                 .filter(i -> i.getEvent().getId().equals(eventId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Артикулът не е намерен!"));
+                .orElseThrow(() -> new IllegalArgumentException("Item not found!"));
 
         cart.getItems().remove(item);
         item.setCart(null);
@@ -142,6 +144,13 @@ public class CartService {
                     return unit.multiply(BigDecimal.valueOf(qty));
                 })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public int getItemsCount(UUID userId) {
+        Cart cart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+        return cartItemRepository.getTotalQuantityByCartId(cart.getId());
     }
 }
 

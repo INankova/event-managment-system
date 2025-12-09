@@ -364,8 +364,6 @@ body {
     text-decoration: underline;
 }
 
-/* RESPONSIVE */
-
 @media (max-width: 992px) {
     .cart-page {
         flex-direction: column;

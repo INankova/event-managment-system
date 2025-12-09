@@ -23,17 +23,14 @@
     <section class="venues-list animate-slide">
         <h2><i class="fas fa-building"></i> Venues</h2>
 
-        <!-- ✅ Бутон за добавяне на ново веню (само за ADMIN) -->
-        <div class="add-venue-btn-container" sec:authorize="hasAuthority('ADMIN')">
+        <div class="add-venue-btn-container" sec:authorize="hasRole('ADMIN')">
             <a th:href="@{/venues/new}" class="btn-add-venue">
                 <i class="fas fa-plus"></i> Add Venue
             </a>
         </div>
 
-        <!-- ✅ Ако няма venues -->
         <p th:if="${#lists.isEmpty(venues)}" class="no-venues-msg">No venues yet.</p>
 
-        <!-- ✅ Динамичен списък с venues -->
         <div th:each="venue : ${venues}" class="venue-card">
             <div class="venue-info">
                 <h3 th:text="${venue.name}">Venue Name</h3>

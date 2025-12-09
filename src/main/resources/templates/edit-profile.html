@@ -11,7 +11,6 @@
 </head>
 <body>
 <div class="edit-container">
-  <!-- Header -->
   <header class="edit-header">
     <a th:href="@{/home}" class="btn-back">
       <i class="fas fa-arrow-left"></i> Back
@@ -19,13 +18,11 @@
     <h1>Edit Profile</h1>
   </header>
 
-  <!-- Edit Form -->
   <form class="form"
         th:action="@{'/users/' + ${user.id} + '/edit-profile'}"
         method="post"
         th:object="${userEditRequest}">
     <input type="hidden" name="_method" value="put"/>
-    <!-- Avatar Section -->
     <div class="avatar-section">
       <div class="avatar-preview">
         <img th:src="${user.profilePictureUrl} ?: 'https://api.dicebear.com/7.x/initials/svg?seed=${user.username}'"
@@ -37,7 +34,6 @@
       </label>
     </div>
 
-    <!-- Personal Info -->
     <div class="form-section">
       <h2>Personal Information</h2>
       <div class="form-group">
@@ -62,7 +58,6 @@
       </div>
     </div>
 
-    <!-- Account Security -->
     <div class="form-section">
       <h2>Account Security</h2>
       <div class="form-group">
@@ -89,7 +84,6 @@
       </div>
     </div>
 
-    <!-- Form Actions -->
     <div class="form-actions">
       <button type="reset" class="btn-cancel">Cancel</button>
       <button type="submit" class="btn-save">Save Changes</button>
@@ -98,7 +92,6 @@
 </div>
 
 <script>
-  // Avatar preview script
   const avatarInput = document.getElementById('avatarInput');
   const avatarPreview = document.getElementById('avatarPreview');
   avatarInput.onchange = evt => {

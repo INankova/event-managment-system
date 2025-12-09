@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.URL;
 
 @Data
 @Builder
@@ -23,7 +24,7 @@ public class UserEditRequest {
     @Email(message = "Requires correct email format")
     private String email;
 
-    @org.hibernate.validator.constraints.URL(message = "Requires correct web link format")
+    @URL(message = "Requires correct web link format")
     private String profilePicture;
 
     private String phoneNumber;

@@ -6,6 +6,7 @@ import com.example.event_management_system.User.model.User;
 import com.example.event_management_system.User.repository.UserRepository;
 import com.example.event_management_system.email.service.EmailService;
 import com.example.event_management_system.exception.DomainException;
+import com.example.event_management_system.exception.UsernameAlreadyExistsException;
 import com.example.event_management_system.web.dto.RegisterNotificationEvent;
 import com.example.event_management_system.web.dto.RegisterRequest;
 import com.example.event_management_system.web.dto.UserEditRequest;
@@ -49,7 +50,7 @@ public class UserService implements UserDetailsService {
 
         Optional<User> optionalUser = userRepository.findByUsernameOrEmail(registerRequest.getUsername(), registerRequest.getEmail());
         if (optionalUser.isPresent()) {
-            throw new UsernameNotFoundException("Username already exists");
+            throw new UsernameAlreadyExistsException("Username already exists");
         }
 
         User user = userRepository.save(initializeUser(registerRequest));

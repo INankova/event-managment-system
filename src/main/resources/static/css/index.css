@@ -30,7 +30,6 @@ body::before {
     100% { transform: rotate(-5deg) translate(-50px, -50px); }
 }
 
-/* Стилове за билета */
 .ticket {
     background: linear-gradient(145deg, #ffffff 60%, #f8f8f8 100%);
     padding: 0;
@@ -60,7 +59,6 @@ body::before {
             inset 0 0 30px rgba(255, 255, 255, 0.3);
 }
 
-/* Перфорационни линии */
 .perforation {
     height: 20px;
     background: repeating-linear-gradient(
@@ -75,7 +73,6 @@ body::before {
     opacity: 0.6;
 }
 
-/* Хедър секция */
 .header {
     padding: 40px 30px;
     background: linear-gradient(145deg, #f0f0f0 0%, #e0e0e0 100%);
@@ -112,7 +109,6 @@ body::before {
     border-radius: 2px;
 }
 
-/* Основно съдържание */
 .info {
     padding: 30px;
     text-align: center;
@@ -127,7 +123,6 @@ body::before {
     padding: 0 20px;
 }
 
-/* Баркод стил */
 .barcode {
     height: 50px;
     background: repeating-linear-gradient(
@@ -146,7 +141,6 @@ body::before {
     content: "";
 }
 
-/* Контейнер за бутони */
 .button-container {
     display: flex;
     gap: 50px;
@@ -157,7 +151,6 @@ body::before {
     border-top: 2px dashed #ddd;
 }
 
-/* Стилове за бутони */
 .roll-button {
     display: inline-block;
     perspective: 1000px;
@@ -246,7 +239,6 @@ body::before {
     transform: rotateZ(45deg) translateY(100%);
 }
 
-/* Допълнителни ефекти */
 .ticket::before {
     content: '';
     position: absolute;

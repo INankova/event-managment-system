@@ -18,4 +18,6 @@ public interface CartRepository extends JpaRepository<Cart, UUID> {
         where c.userId = :userId
         """)
     Optional<Cart> findWithItemsByUserId(@Param("userId") UUID userId);
+
+    Optional<Cart> findByUserId(UUID userId);
 }

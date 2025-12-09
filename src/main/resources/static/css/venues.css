@@ -2,9 +2,9 @@
     --main-gradient: linear-gradient(145deg, #ff6b6b 0%, #ff8e53 100%);
     --ticket-bg: linear-gradient(145deg, #fff 0%, #f8f9fa 100%);
     --text-dark: #2c2c2c;
-    --accent-color: #ff6b6b; /* Основен акцентен цвят */
-    --accent-light: #ff8e53; /* Светъл акцентен цвят */
-    --text-light: #f8f9fa; /* Светъл текст */
+    --accent-color: #ff6b6b;
+    --accent-light: #ff8e53;
+    --text-light: #f8f9fa;
 }
 
 body {
@@ -126,7 +126,6 @@ body {
     text-align: center;
 }
 
-/* Стилове за бутона Add Venue */
 .add-venue-btn-container {
     text-align: center;
     margin: 2rem 0;
@@ -165,7 +164,6 @@ body {
     font-size: 1.2rem;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .btn-add-venue {
         padding: 0.8rem 1.5rem;
