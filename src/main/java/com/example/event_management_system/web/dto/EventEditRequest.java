@@ -1,6 +1,6 @@
 package com.example.event_management_system.web.dto;
 
-import com.example.event_management_system.Event.model.EventType;
+import com.example.event_management_system.event.model.EventType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Size;
@@ -43,7 +43,7 @@ public class EventEditRequest {
     @URL(message = "Image URL must not be empty!")
     private String imageUrl;
 
-    public EventEditRequest(com.example.event_management_system.Event.model.Event event) {
+    public EventEditRequest(com.example.event_management_system.event.model.Event event) {
         this.id = event.getId();
         this.title = event.getTitle();
         this.eventType = event.getEventType();

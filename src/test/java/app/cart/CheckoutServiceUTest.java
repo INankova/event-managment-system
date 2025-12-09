@@ -1,16 +1,16 @@
 package app.cart;
 
-import com.example.event_management_system.Cart.model.Cart;
-import com.example.event_management_system.Cart.model.CartItem;
-import com.example.event_management_system.Cart.repository.CartRepository;
-import com.example.event_management_system.Cart.service.CheckoutService;
-import com.example.event_management_system.Event.model.Event;
-import com.example.event_management_system.Ticket.model.Ticket;
-import com.example.event_management_system.Ticket.model.TicketStatus;
-import com.example.event_management_system.Ticket.model.TicketType;
-import com.example.event_management_system.Ticket.repository.TicketRepository;
-import com.example.event_management_system.User.model.User;
-import com.example.event_management_system.User.repository.UserRepository;
+import com.example.event_management_system.cart.model.Cart;
+import com.example.event_management_system.cart.model.CartItem;
+import com.example.event_management_system.cart.repository.CartRepository;
+import com.example.event_management_system.cart.service.CheckoutService;
+import com.example.event_management_system.event.model.Event;
+import com.example.event_management_system.ticket.model.Ticket;
+import com.example.event_management_system.ticket.model.TicketStatus;
+import com.example.event_management_system.ticket.model.TicketType;
+import com.example.event_management_system.ticket.repository.TicketRepository;
+import com.example.event_management_system.user.model.User;
+import com.example.event_management_system.user.repository.UserRepository;
 import com.example.event_management_system.email.service.EmailService;
 import com.example.event_management_system.exception.DomainException;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,11 +1,11 @@
 package app.cart;
 
-import com.example.event_management_system.Cart.model.Cart;
-import com.example.event_management_system.Cart.model.CartItem;
-import com.example.event_management_system.Cart.repository.CartRepository;
-import com.example.event_management_system.Cart.service.CartService;
-import com.example.event_management_system.Event.model.Event;
-import com.example.event_management_system.Event.repository.EventRepository;
+import com.example.event_management_system.cart.model.Cart;
+import com.example.event_management_system.cart.model.CartItem;
+import com.example.event_management_system.cart.repository.CartRepository;
+import com.example.event_management_system.cart.service.CartService;
+import com.example.event_management_system.event.model.Event;
+import com.example.event_management_system.event.repository.EventRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;

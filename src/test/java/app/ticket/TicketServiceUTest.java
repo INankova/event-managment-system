@@ -1,11 +1,11 @@
 package app.ticket;
 
-import com.example.event_management_system.Event.model.Event;
-import com.example.event_management_system.Ticket.model.Ticket;
-import com.example.event_management_system.Ticket.model.TicketStatus;
-import com.example.event_management_system.Ticket.repository.TicketRepository;
-import com.example.event_management_system.Ticket.service.TicketService;
-import com.example.event_management_system.User.model.User;
+import com.example.event_management_system.event.model.Event;
+import com.example.event_management_system.ticket.model.Ticket;
+import com.example.event_management_system.ticket.model.TicketStatus;
+import com.example.event_management_system.ticket.repository.TicketRepository;
+import com.example.event_management_system.ticket.service.TicketService;
+import com.example.event_management_system.user.model.User;
 import com.example.event_management_system.email.service.EmailService;
 import com.example.event_management_system.exception.DomainException;
 import org.junit.jupiter.api.Test;

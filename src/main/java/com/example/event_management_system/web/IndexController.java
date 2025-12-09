@@ -1,9 +1,9 @@
 package com.example.event_management_system.web;
 
-import com.example.event_management_system.Cart.service.CartService;
-import com.example.event_management_system.Security.AuthenticationMetaData;
-import com.example.event_management_system.User.model.User;
-import com.example.event_management_system.User.service.UserService;
+import com.example.event_management_system.cart.service.CartService;
+import com.example.event_management_system.security.AuthenticationMetaData;
+import com.example.event_management_system.user.model.User;
+import com.example.event_management_system.user.service.UserService;
 import com.example.event_management_system.web.dto.LoginRequest;
 import com.example.event_management_system.web.dto.RegisterRequest;
 import jakarta.validation.Valid;

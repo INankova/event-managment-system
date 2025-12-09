@@ -1,8 +1,8 @@
 package com.example.event_management_system.web;
 
-import com.example.event_management_system.Ticket.model.Ticket;
-import com.example.event_management_system.Ticket.repository.TicketRepository;
-import com.example.event_management_system.Ticket.service.TicketService;
+import com.example.event_management_system.ticket.model.Ticket;
+import com.example.event_management_system.ticket.repository.TicketRepository;
+import com.example.event_management_system.ticket.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

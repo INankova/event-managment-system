@@ -1,12 +1,12 @@
 package app.web;
 
-import com.example.event_management_system.Event.model.Event;
-import com.example.event_management_system.Event.model.EventType;
-import com.example.event_management_system.Event.repository.EventRepository;
-import com.example.event_management_system.Security.AuthenticationMetaData;
-import com.example.event_management_system.User.model.Role;
-import com.example.event_management_system.User.model.User;
-import com.example.event_management_system.User.service.UserService;
+import com.example.event_management_system.event.model.Event;
+import com.example.event_management_system.event.model.EventType;
+import com.example.event_management_system.event.repository.EventRepository;
+import com.example.event_management_system.security.AuthenticationMetaData;
+import com.example.event_management_system.user.model.Role;
+import com.example.event_management_system.user.model.User;
+import com.example.event_management_system.user.service.UserService;
 import com.example.event_management_system.web.CategoryController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

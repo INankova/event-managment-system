@@ -1,10 +1,10 @@
 package app.web;
 
-import com.example.event_management_system.Cart.model.Cart;
-import com.example.event_management_system.Cart.service.CartService;
-import com.example.event_management_system.Cart.service.CheckoutService;
-import com.example.event_management_system.Security.AuthenticationMetaData;
-import com.example.event_management_system.User.model.Role;
+import com.example.event_management_system.cart.model.Cart;
+import com.example.event_management_system.cart.service.CartService;
+import com.example.event_management_system.cart.service.CheckoutService;
+import com.example.event_management_system.security.AuthenticationMetaData;
+import com.example.event_management_system.user.model.Role;
 import com.example.event_management_system.web.CartController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,8 +1,8 @@
 package com.example.event_management_system.web;
 
-import com.example.event_management_system.Security.AuthenticationMetaData;
-import com.example.event_management_system.User.model.User;
-import com.example.event_management_system.User.service.UserService;
+import com.example.event_management_system.security.AuthenticationMetaData;
+import com.example.event_management_system.user.model.User;
+import com.example.event_management_system.user.service.UserService;
 import com.example.event_management_system.email.Client.dto.Notification;
 import com.example.event_management_system.email.Client.dto.NotificationPreference;
 import com.example.event_management_system.email.service.EmailService;

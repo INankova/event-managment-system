@@ -1,11 +1,11 @@
 package app;
 
 import com.example.event_management_system.Application;
-import com.example.event_management_system.Security.AuthenticationMetaData;
-import com.example.event_management_system.User.model.Role;
-import com.example.event_management_system.User.model.User;
-import com.example.event_management_system.User.repository.UserRepository;
-import com.example.event_management_system.User.service.UserService;
+import com.example.event_management_system.security.AuthenticationMetaData;
+import com.example.event_management_system.user.model.Role;
+import com.example.event_management_system.user.model.User;
+import com.example.event_management_system.user.repository.UserRepository;
+import com.example.event_management_system.user.service.UserService;
 import com.example.event_management_system.email.service.EmailService;
 import com.example.event_management_system.exception.DomainException;
 import com.example.event_management_system.exception.UsernameAlreadyExistsException;

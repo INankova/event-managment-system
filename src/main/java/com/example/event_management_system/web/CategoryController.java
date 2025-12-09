@@ -1,10 +1,10 @@
 package com.example.event_management_system.web;
-import com.example.event_management_system.Event.model.Event;
-import com.example.event_management_system.Event.model.EventType;
-import com.example.event_management_system.Event.repository.EventRepository;
-import com.example.event_management_system.Security.AuthenticationMetaData;
-import com.example.event_management_system.User.model.User;
-import com.example.event_management_system.User.service.UserService;
+import com.example.event_management_system.event.model.Event;
+import com.example.event_management_system.event.model.EventType;
+import com.example.event_management_system.event.repository.EventRepository;
+import com.example.event_management_system.security.AuthenticationMetaData;
+import com.example.event_management_system.user.model.User;
+import com.example.event_management_system.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

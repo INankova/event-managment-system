@@ -1,8 +1,8 @@
 package app.web;
 
-import com.example.event_management_system.Ticket.model.Ticket;
-import com.example.event_management_system.Ticket.repository.TicketRepository;
-import com.example.event_management_system.Ticket.service.TicketService;
+import com.example.event_management_system.ticket.model.Ticket;
+import com.example.event_management_system.ticket.repository.TicketRepository;
+import com.example.event_management_system.ticket.service.TicketService;
 import com.example.event_management_system.web.TicketController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

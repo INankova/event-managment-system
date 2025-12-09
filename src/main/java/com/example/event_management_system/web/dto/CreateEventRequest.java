@@ -1,6 +1,6 @@
 package com.example.event_management_system.web.dto;
 
-import com.example.event_management_system.Event.model.EventType;
+import com.example.event_management_system.event.model.EventType;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

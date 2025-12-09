@@ -1,6 +1,6 @@
 package com.example.event_management_system.web.mapper;
 
-import com.example.event_management_system.User.model.User;
+import com.example.event_management_system.user.model.User;
 import com.example.event_management_system.web.dto.UserEditRequest;
 import lombok.experimental.UtilityClass;
 

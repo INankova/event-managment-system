@@ -1,8 +1,8 @@
 package app.venue;
 
-import com.example.event_management_system.Venue.model.Venue;
-import com.example.event_management_system.Venue.repository.VenueRepository;
-import com.example.event_management_system.Venue.service.VenueService;
+import com.example.event_management_system.venue.model.Venue;
+import com.example.event_management_system.venue.repository.VenueRepository;
+import com.example.event_management_system.venue.service.VenueService;
 import com.example.event_management_system.exception.VenueNameAlreadyExistsException;
 import com.example.event_management_system.web.dto.CreateVenueRequest;
 import org.junit.jupiter.api.Test;

@@ -1,10 +1,10 @@
 package com.example.event_management_system.web;
 
-import com.example.event_management_system.Security.AuthenticationMetaData;
-import com.example.event_management_system.User.model.User;
-import com.example.event_management_system.User.service.UserService;
-import com.example.event_management_system.Venue.model.Venue;
-import com.example.event_management_system.Venue.service.VenueService;
+import com.example.event_management_system.security.AuthenticationMetaData;
+import com.example.event_management_system.user.model.User;
+import com.example.event_management_system.user.service.UserService;
+import com.example.event_management_system.venue.model.Venue;
+import com.example.event_management_system.venue.service.VenueService;
 import com.example.event_management_system.web.dto.CreateVenueRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

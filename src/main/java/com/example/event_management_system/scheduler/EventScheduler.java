@@ -1,7 +1,7 @@
 package com.example.event_management_system.scheduler;
 
-import com.example.event_management_system.Event.model.Event;
-import com.example.event_management_system.Event.service.EventService;
+import com.example.event_management_system.event.model.Event;
+import com.example.event_management_system.event.service.EventService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
