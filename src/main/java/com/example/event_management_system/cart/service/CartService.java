@@ -147,10 +147,9 @@ public class CartService {
     }
 
     public int getItemsCount(UUID userId) {
-        Cart cart = cartRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Cart not found"));
-
-        return cartItemRepository.getTotalQuantityByCartId(cart.getId());
+        return cartRepository.findByUserId(userId)
+                .map(cart -> cartItemRepository.getTotalQuantityByCartId(cart.getId()))
+                .orElse(0);
     }
 }
 

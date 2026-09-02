@@ -3,6 +3,8 @@ package com.example.event_management_system.web;
 import com.example.event_management_system.exception.NotificationServiceFeignCallException;
 import com.example.event_management_system.exception.UsernameAlreadyExistsException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MissingRequestValueException;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class ExceptionAdvice {
+
+    private static final Logger log = LoggerFactory.getLogger(ExceptionAdvice.class);
 
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public String handleUsernameAlreadyExist(HttpServletRequest request, RedirectAttributes redirectAttributes, UsernameAlreadyExistsException exception) {
@@ -49,6 +53,8 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public ModelAndView handleAnyException(Exception exception) {
+
+        log.error("Unhandled exception", exception);
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("internal-server-error");
